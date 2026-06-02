@@ -1,0 +1,62 @@
+aid: bluecart
+name: BlueCart
+description: >-
+  BlueCart is an end-to-end eCommerce and procurement platform for the
+  hospitality and food and beverage industries, connecting restaurants and
+  buyers with wholesale distributors and suppliers. It streamlines wholesale
+  ordering, order management, inventory, and payments for both sides of the
+  supply chain. BlueCart exposes a public REST API that lets distributors and
+  partners programmatically manage products, orders, customers, and related
+  resources, returning JSON responses and integrating BlueCart data with
+  external accounting, eCommerce, and logistics systems used across foodservice
+  operations.
+type: Index
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+tags:
+  - Restaurant
+  - Procurement
+  - Wholesale
+  - Ordering
+  - Food Distribution
+  - Hospitality
+  - eCommerce
+url: https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/apis.yml
+created: '2026-06-02'
+modified: '2026-06-02'
+specificationVersion: '0.19'
+apis:
+  - aid: bluecart:rest-api
+    name: BlueCart API
+    description: >-
+      The BlueCart API is defined using REST with predictable, resource-oriented
+      URLs and returns JSON-encoded responses with standard HTTP status codes.
+      It is authenticated using AWS Signature Version 4, requiring an Access Key
+      ID, Secret Access Key, and API Key generated from the BlueCart app under
+      Settings, API Access Credentials. The API operates on one object per
+      request and does not support bulk updates, and a Postman collection is
+      provided to help developers make their first request.
+    humanURL: https://docs.bluecart.com/
+    tags:
+      - Orders
+      - Products
+      - Customers
+      - Procurement
+    properties:
+      - type: Documentation
+        url: https://docs.bluecart.com/
+      - type: Authentication
+        url: https://docs.bluecart.com/authentication
+      - type: GettingStarted
+        url: https://docs.bluecart.com/running-your-first-request
+common:
+  - type: Website
+    url: https://www.bluecart.com/
+  - type: Documentation
+    url: https://docs.bluecart.com/
+  - type: APIReference
+    url: https://docs.bluecart.com/
+  - type: Support
+    url: https://www.bluecart.com/contact
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

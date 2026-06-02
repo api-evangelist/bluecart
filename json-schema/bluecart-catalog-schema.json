@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Catalog",
+  "description": "A catalog of products and pricing assigned to clients.",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-schema/bluecart-catalog-schema.json",
+  "type": "object",
+  "properties": {
+    "catalogId": {
+      "type": "integer",
+      "format": "int64",
+      "example": 700
+    },
+    "catalogName": {
+      "type": "string",
+      "example": "Premium Wines"
+    },
+    "enabled": {
+      "type": "boolean",
+      "example": true
+    },
+    "products": {
+      "type": "array",
+      "description": "Products in the catalog with pricing and discounts.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "clients": {
+      "type": "array",
+      "description": "Clients the catalog is assigned to.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  }
+}

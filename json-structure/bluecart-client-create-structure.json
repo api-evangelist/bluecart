@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-client-create-structure.json",
+  "name": "ClientCreate",
+  "description": "Payload for creating a client association.",
+  "type": "object",
+  "properties": {
+    "clientEmail": {
+      "type": "string",
+      "example": "buyer@restaurant.example"
+    },
+    "clientId": {
+      "type": "int64",
+      "example": 5012
+    },
+    "name": {
+      "type": "string",
+      "example": "Downtown Bistro"
+    },
+    "catalogId": {
+      "type": "int64",
+      "example": 700
+    },
+    "orderFrequency": {
+      "type": "string",
+      "example": "Weekly"
+    },
+    "accountNumber": {
+      "type": "string",
+      "example": "ACCT-5012"
+    },
+    "netTerms": {
+      "type": "string",
+      "example": "Net 30"
+    },
+    "addresses": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "salesReps": {
+      "type": "array",
+      "items": {
+        "type": "int64"
+      },
+      "example": [
+        3001
+      ]
+    }
+  },
+  "required": [
+    "clientEmail",
+    "name"
+  ]
+}

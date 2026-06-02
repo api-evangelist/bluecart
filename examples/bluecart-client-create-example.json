@@ -1,0 +1,13 @@
+{
+  "clientEmail": "buyer@restaurant.example",
+  "clientId": 5012,
+  "name": "Downtown Bistro",
+  "catalogId": 700,
+  "orderFrequency": "Weekly",
+  "accountNumber": "ACCT-5012",
+  "netTerms": "Net 30",
+  "addresses": {},
+  "salesReps": [
+    3001
+  ]
+}

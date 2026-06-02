@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-order-product-structure.json",
+  "name": "OrderProduct",
+  "description": "A line item within an order.",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "type": "int64",
+      "description": "Identifier of the product.",
+      "example": 90210
+    },
+    "sku": {
+      "type": "string",
+      "description": "Stock keeping unit of the product.",
+      "example": "WINE-CAB-750"
+    },
+    "name": {
+      "type": "string",
+      "description": "Product name.",
+      "example": "Cabernet Sauvignon 750ml"
+    },
+    "quantity": {
+      "type": "double",
+      "description": "Quantity ordered.",
+      "example": 12
+    },
+    "price": {
+      "type": "float",
+      "description": "Unit price for this line item.",
+      "example": 18.5
+    }
+  }
+}

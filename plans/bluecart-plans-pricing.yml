@@ -1,0 +1,122 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: BlueCart
+providerId: bluecart
+created: '2026-06-02'
+modified: '2026-06-02'
+reconciled: false
+tags:
+  - Wholesale
+  - Procurement
+  - Food Distribution
+  - Hospitality
+  - eCommerce
+description: >-
+  BlueCart sells a subscription SaaS platform for food and beverage distributors
+  and the restaurants that buy from them. BlueCart does not publish a public
+  pricing page on bluecart.com; pricing is sales-led and quote-based, with
+  plan scope tied to distributor size and feature set. Third-party software
+  directories (GetApp, Capterra, SaaSworthy) have historically listed entry
+  figures starting around $10/month and a higher tier near $200/month, plus a
+  custom/enterprise plan, but these figures are unverified against the vendor
+  and were last reported in 2022. The BlueCart API is included with the platform
+  subscription rather than metered separately; access credentials are generated
+  in-app under Settings, API Access Credentials. Treat all prices below as
+  indicative until confirmed directly with BlueCart sales.
+sources:
+  - https://www.bluecart.com/
+  - https://docs.bluecart.com/authentication
+  - https://www.getapp.com/retail-consumer-services-software/a/bluecart/pricing/
+  - https://www.capterra.com/p/150106/BlueCart/
+  - https://www.saasworthy.com/product/bluecart-platform/pricing
+plans:
+  - id: bluecart-entry
+    name: Entry
+    type: subscription
+    description: >-
+      Indicative entry-level subscription for smaller distributors (figure
+      reported by third-party directories, unverified).
+    entries:
+      - label: Platform subscription (entry)
+        name: platform_subscription_entry
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: US
+        unit: '1'
+        price: '$10.00/month (third-party reported, unverified)'
+        userMultiplied: false
+      - label: API access
+        name: api_access
+        type: flat
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: '1'
+        price: included
+        userMultiplied: false
+    elements:
+      - name: Order management
+      - name: Product catalog
+      - name: Invoicing
+      - name: REST API access
+  - id: bluecart-growth
+    name: Growth
+    type: subscription
+    description: >-
+      Indicative higher-tier subscription for growing distributors (figure
+      reported by third-party directories, unverified).
+    entries:
+      - label: Platform subscription (growth)
+        name: platform_subscription_growth
+        type: subscription
+        metric: month
+        limit: -1
+        timeFrame: month
+        geo: US
+        unit: '1'
+        price: '$200.00/month (third-party reported, unverified)'
+        userMultiplied: false
+      - label: API access
+        name: api_access
+        type: flat
+        metric: request
+        limit: -1
+        timeFrame: month
+        geo: global
+        unit: '1'
+        price: included
+        userMultiplied: false
+    elements:
+      - name: Order management
+      - name: Product catalog
+      - name: Client-specific catalogs and pricing
+      - name: Inventory tracking
+      - name: Invoicing and payments
+      - name: REST API access
+  - id: bluecart-custom
+    name: Custom / Enterprise
+    type: enterprise
+    description: >-
+      Quote-based plan for larger distributors and custom requirements. Contact
+      BlueCart sales for scope and pricing.
+    entries:
+      - label: Custom platform agreement
+        name: custom_platform_agreement
+        type: subscription
+        metric: varies
+        limit: -1
+        timeFrame: month
+        geo: US
+        unit: '1'
+        price: contact sales
+        userMultiplied: false
+    elements:
+      - name: Full order and catalog management
+      - name: Inventory and delivery route management
+      - name: CRM for buyer relationships
+      - name: REST API access
+      - name: Custom integrations

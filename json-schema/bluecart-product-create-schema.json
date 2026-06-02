@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProductCreate",
+  "description": "Payload for creating or updating a product.",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-schema/bluecart-product-create-schema.json",
+  "type": "object",
+  "properties": {
+    "productName": {
+      "type": "string",
+      "example": "Cabernet Sauvignon 750ml"
+    },
+    "sku": {
+      "type": "string",
+      "example": "WINE-CAB-750"
+    },
+    "description": {
+      "type": "string",
+      "example": "Estate-bottled Cabernet Sauvignon, vintage 2022."
+    },
+    "uom": {
+      "type": "string",
+      "example": "Bottle"
+    },
+    "price": {
+      "type": "number",
+      "format": "float",
+      "example": 18.5
+    },
+    "pack": {
+      "type": "integer",
+      "example": 12
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "Wine",
+        "Red"
+      ]
+    },
+    "inventory": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "discounts": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "productName",
+    "price"
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-product-structure.json",
+  "name": "Product",
+  "description": "A product available for wholesale ordering.",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "type": "int64",
+      "description": "Unique product identifier.",
+      "example": 90210
+    },
+    "productName": {
+      "type": "string",
+      "description": "Product name.",
+      "example": "Cabernet Sauvignon 750ml"
+    },
+    "sku": {
+      "type": "string",
+      "description": "Stock keeping unit.",
+      "example": "WINE-CAB-750"
+    },
+    "description": {
+      "type": "string",
+      "description": "Product description.",
+      "example": "Estate-bottled Cabernet Sauvignon, vintage 2022."
+    },
+    "uom": {
+      "type": "string",
+      "description": "Unit of measure.",
+      "example": "Bottle"
+    },
+    "price": {
+      "type": "float",
+      "description": "Unit price.",
+      "example": 18.5
+    },
+    "pack": {
+      "type": "int32",
+      "description": "Number of units per pack.",
+      "example": 12
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags associated with the product.",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "Wine",
+        "Red"
+      ]
+    },
+    "inventory": {
+      "type": "object",
+      "description": "Inventory management details.",
+      "additionalProperties": true
+    },
+    "discounts": {
+      "type": "object",
+      "description": "Discount configuration for the product.",
+      "additionalProperties": true
+    },
+    "creationDateTime": {
+      "type": "datetime",
+      "example": "2026-06-02T14:30:00Z"
+    },
+    "lastUpdateDateTime": {
+      "type": "datetime",
+      "example": "2026-06-02T15:00:00Z"
+    }
+  }
+}

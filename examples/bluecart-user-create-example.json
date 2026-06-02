@@ -1,0 +1,14 @@
+{
+  "firstName": "Alex",
+  "lastName": "Morgan",
+  "email": "alex.morgan@distributor.example",
+  "enabled": true,
+  "notify": true,
+  "role": "Admin",
+  "phone": "+15555550123",
+  "reportsTo": 3000,
+  "notificationTypes": [
+    "OrderPlaced",
+    "OrderShipped"
+  ]
+}

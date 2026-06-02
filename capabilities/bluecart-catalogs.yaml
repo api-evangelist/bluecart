@@ -1,0 +1,255 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BlueCart API — Catalogs
+  description: 'Catalogs surface of the BlueCart API. 5 operations. Lead operation: Retrieve All Catalogs. Self-contained Naftiko capability covering one BlueCart business surface.'
+  tags:
+  - BlueCart
+  - Procurement
+  - Catalogs
+  created: '2026-06-02'
+  modified: '2026-06-02'
+binds:
+- namespace: env
+  keys:
+    BLUECART_API_KEY: BLUECART_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: bluecart-catalogs
+    baseUri: https://api.bluecart.com
+    description: BlueCart API — Catalogs business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.BLUECART_API_KEY}}'
+      placement: header
+    resources:
+    - name: api-catalogs
+      path: /api/catalogs/
+      operations:
+      - name: retrieveAllCatalogs
+        method: GET
+        description: Retrieve All Catalogs
+        inputParameters:
+        - name: nextToken
+          in: query
+          type: string
+          required: false
+          description: Pagination token returned by a previous page; omit for the first page.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-catalogs
+      path: /api/catalogs/
+      operations:
+      - name: createCatalog
+        method: POST
+        description: Create A Catalog
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Request payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-catalogs-id
+      path: /api/catalogs/{id}
+      operations:
+      - name: retrieveCatalog
+        method: GET
+        description: Retrieve A Catalog
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Catalog identifier.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-catalogs-id
+      path: /api/catalogs/{id}
+      operations:
+      - name: updateCatalog
+        method: PUT
+        description: Update A Catalog
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Catalog identifier.
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Request payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: api-catalogs-id
+      path: /api/catalogs/{id}
+      operations:
+      - name: deleteCatalog
+        method: DELETE
+        description: Delete A Catalog
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Catalog identifier.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: bluecart-catalogs-rest
+    port: 8080
+    description: REST adapter for BlueCart API — Catalogs. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/catalogs
+      name: api-catalogs
+      description: REST surface for Retrieve All Catalogs.
+      operations:
+      - method: GET
+        name: retrieveAllCatalogs
+        description: Retrieve All Catalogs
+        call: bluecart-catalogs.retrieveAllCatalogs
+        with:
+          nextToken: rest.nextToken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalogs
+      name: api-catalogs
+      description: REST surface for Create A Catalog.
+      operations:
+      - method: POST
+        name: createCatalog
+        description: Create A Catalog
+        call: bluecart-catalogs.createCatalog
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalogs-id
+      name: api-catalogs-id
+      description: REST surface for Retrieve A Catalog.
+      operations:
+      - method: GET
+        name: retrieveCatalog
+        description: Retrieve A Catalog
+        call: bluecart-catalogs.retrieveCatalog
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalogs-id
+      name: api-catalogs-id
+      description: REST surface for Update A Catalog.
+      operations:
+      - method: PUT
+        name: updateCatalog
+        description: Update A Catalog
+        call: bluecart-catalogs.updateCatalog
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/catalogs-id
+      name: api-catalogs-id
+      description: REST surface for Delete A Catalog.
+      operations:
+      - method: DELETE
+        name: deleteCatalog
+        description: Delete A Catalog
+        call: bluecart-catalogs.deleteCatalog
+        with:
+          id: rest.id
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: bluecart-catalogs-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BlueCart API — Catalogs. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: retrieve-all-catalogs
+      description: Retrieve All Catalogs
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bluecart-catalogs.retrieveAllCatalogs
+      with:
+        nextToken: tools.nextToken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: create-catalog
+      description: Create A Catalog
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: bluecart-catalogs.createCatalog
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-catalog
+      description: Retrieve A Catalog
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bluecart-catalogs.retrieveCatalog
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: update-catalog
+      description: Update A Catalog
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: bluecart-catalogs.updateCatalog
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: delete-catalog
+      description: Delete A Catalog
+      hints:
+        readOnly: false
+        destructive: true
+        idempotent: true
+      call: bluecart-catalogs.deleteCatalog
+      with:
+        id: tools.id
+      outputParameters:
+      - type: object
+        mapping: $.

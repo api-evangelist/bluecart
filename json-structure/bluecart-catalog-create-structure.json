@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-catalog-create-structure.json",
+  "name": "CatalogCreate",
+  "description": "Payload for creating a catalog.",
+  "type": "object",
+  "properties": {
+    "catalogName": {
+      "type": "string",
+      "example": "Premium Wines"
+    },
+    "products": {
+      "type": "array",
+      "description": "Products to include, with ids and discount options.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "customers": {
+      "type": "array",
+      "description": "Customers to assign the catalog to, by id.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "required": [
+    "catalogName"
+  ]
+}

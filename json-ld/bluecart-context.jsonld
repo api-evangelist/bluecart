@@ -1,0 +1,269 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "bc": "https://bluecart.com/schema/",
+    "schema": "https://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "OrderProduct": "bc:OrderProduct",
+    "productId": {
+      "@id": "bc:productId",
+      "@type": "xsd:integer"
+    },
+    "sku": {
+      "@id": "bc:sku",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "schema:name"
+    },
+    "quantity": {
+      "@id": "bc:quantity",
+      "@type": "xsd:decimal"
+    },
+    "price": {
+      "@id": "bc:price",
+      "@type": "xsd:float"
+    },
+    "Order": "bc:Order",
+    "orderId": {
+      "@id": "bc:orderId",
+      "@type": "xsd:integer"
+    },
+    "clientId": {
+      "@id": "bc:clientId",
+      "@type": "xsd:integer"
+    },
+    "vendorId": {
+      "@id": "bc:vendorId",
+      "@type": "xsd:integer"
+    },
+    "status": {
+      "@id": "bc:status",
+      "@type": "xsd:string"
+    },
+    "deliveryType": {
+      "@id": "bc:deliveryType",
+      "@type": "xsd:string"
+    },
+    "currency": {
+      "@id": "bc:currency",
+      "@type": "xsd:string"
+    },
+    "deliveryCharge": {
+      "@id": "bc:deliveryCharge",
+      "@type": "xsd:float"
+    },
+    "requestedDeliveryDate": {
+      "@id": "bc:requestedDeliveryDate",
+      "@type": "xsd:date"
+    },
+    "deliveryDate": {
+      "@id": "bc:deliveryDate",
+      "@type": "xsd:date"
+    },
+    "shippingDate": {
+      "@id": "bc:shippingDate",
+      "@type": "xsd:date"
+    },
+    "creationDate": {
+      "@id": "bc:creationDate",
+      "@type": "xsd:dateTime"
+    },
+    "lastUpdateDate": {
+      "@id": "bc:lastUpdateDate",
+      "@type": "xsd:dateTime"
+    },
+    "products": {
+      "@id": "bc:products",
+      "@type": "@id"
+    },
+    "addresses": {
+      "@id": "bc:addresses",
+      "@type": "@id"
+    },
+    "totals": {
+      "@id": "bc:totals",
+      "@type": "@id"
+    },
+    "OrderCreate": "bc:OrderCreate",
+    "user": {
+      "@id": "bc:user",
+      "@type": "@id"
+    },
+    "presetCreationDate": {
+      "@id": "bc:presetCreationDate",
+      "@type": "xsd:dateTime"
+    },
+    "OrderUpdate": "bc:OrderUpdate",
+    "userId": {
+      "@id": "bc:userId",
+      "@type": "xsd:integer"
+    },
+    "paymentStatus": {
+      "@id": "bc:paymentStatus",
+      "@type": "xsd:string"
+    },
+    "trackingInfo": {
+      "@id": "bc:trackingInfo",
+      "@type": "xsd:string"
+    },
+    "OrderCreateResult": "bc:OrderCreateResult",
+    "order": {
+      "@id": "bc:order",
+      "@type": "@id"
+    },
+    "warnings": {
+      "@id": "bc:warnings",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "OrderList": "bc:OrderList",
+    "orders": {
+      "@id": "bc:orders",
+      "@type": "@id"
+    },
+    "nextToken": {
+      "@id": "bc:nextToken",
+      "@type": "xsd:string"
+    },
+    "Product": "bc:Product",
+    "productName": {
+      "@id": "bc:productName",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "schema:description"
+    },
+    "uom": {
+      "@id": "bc:uom",
+      "@type": "xsd:string"
+    },
+    "pack": {
+      "@id": "bc:pack",
+      "@type": "xsd:integer"
+    },
+    "tags": {
+      "@id": "bc:tags",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "inventory": {
+      "@id": "bc:inventory",
+      "@type": "@id"
+    },
+    "discounts": {
+      "@id": "bc:discounts",
+      "@type": "@id"
+    },
+    "creationDateTime": {
+      "@id": "bc:creationDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "lastUpdateDateTime": {
+      "@id": "bc:lastUpdateDateTime",
+      "@type": "xsd:dateTime"
+    },
+    "ProductCreate": "bc:ProductCreate",
+    "ProductList": "bc:ProductList",
+    "Catalog": "bc:Catalog",
+    "catalogId": {
+      "@id": "bc:catalogId",
+      "@type": "xsd:integer"
+    },
+    "catalogName": {
+      "@id": "bc:catalogName",
+      "@type": "xsd:string"
+    },
+    "enabled": {
+      "@id": "bc:enabled",
+      "@type": "xsd:boolean"
+    },
+    "clients": {
+      "@id": "bc:clients",
+      "@type": "@id"
+    },
+    "CatalogCreate": "bc:CatalogCreate",
+    "customers": {
+      "@id": "bc:customers",
+      "@type": "@id"
+    },
+    "CatalogUpdate": "bc:CatalogUpdate",
+    "CatalogList": "bc:CatalogList",
+    "catalogs": {
+      "@id": "bc:catalogs",
+      "@type": "@id"
+    },
+    "Client": "bc:Client",
+    "clientEmail": {
+      "@id": "bc:clientEmail",
+      "@type": "xsd:string"
+    },
+    "firstName": {
+      "@id": "bc:firstName",
+      "@type": "xsd:string"
+    },
+    "lastName": {
+      "@id": "bc:lastName",
+      "@type": "xsd:string"
+    },
+    "nickname": {
+      "@id": "bc:nickname",
+      "@type": "xsd:string"
+    },
+    "orderFrequency": {
+      "@id": "bc:orderFrequency",
+      "@type": "xsd:string"
+    },
+    "accountNumber": {
+      "@id": "bc:accountNumber",
+      "@type": "xsd:string"
+    },
+    "netTerms": {
+      "@id": "bc:netTerms",
+      "@type": "xsd:string"
+    },
+    "salesReps": {
+      "@id": "bc:salesReps",
+      "@container": "@set",
+      "@type": "xsd:integer"
+    },
+    "ClientCreate": "bc:ClientCreate",
+    "ClientUpdate": "bc:ClientUpdate",
+    "User": "bc:User",
+    "id": {
+      "@id": "bc:id",
+      "@type": "xsd:integer"
+    },
+    "email": {
+      "@id": "schema:email"
+    },
+    "notify": {
+      "@id": "bc:notify",
+      "@type": "xsd:boolean"
+    },
+    "role": {
+      "@id": "bc:role",
+      "@type": "xsd:string"
+    },
+    "phone": {
+      "@id": "bc:phone",
+      "@type": "xsd:string"
+    },
+    "reportsTo": {
+      "@id": "bc:reportsTo",
+      "@type": "xsd:integer"
+    },
+    "notificationTypes": {
+      "@id": "bc:notificationTypes",
+      "@container": "@set",
+      "@type": "xsd:string"
+    },
+    "UserCreate": "bc:UserCreate",
+    "UserList": "bc:UserList",
+    "users": {
+      "@id": "bc:users",
+      "@type": "@id"
+    }
+  }
+}

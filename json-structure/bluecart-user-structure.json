@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-user-structure.json",
+  "name": "User",
+  "description": "A platform user.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "int64",
+      "example": 3001
+    },
+    "firstName": {
+      "type": "string",
+      "example": "Alex"
+    },
+    "lastName": {
+      "type": "string",
+      "example": "Morgan"
+    },
+    "email": {
+      "type": "string",
+      "example": "alex.morgan@distributor.example"
+    },
+    "enabled": {
+      "type": "boolean",
+      "example": true
+    },
+    "notify": {
+      "type": "boolean",
+      "example": true
+    },
+    "role": {
+      "type": "string",
+      "example": "Admin"
+    },
+    "phone": {
+      "type": "string",
+      "example": "+15555550123"
+    },
+    "reportsTo": {
+      "type": "int64",
+      "example": 3000
+    },
+    "notificationTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "example": [
+        "OrderPlaced",
+        "OrderShipped"
+      ]
+    },
+    "creationDateTime": {
+      "type": "datetime",
+      "example": "2026-06-02T14:30:00Z"
+    },
+    "lastUpdateDateTime": {
+      "type": "datetime",
+      "example": "2026-06-02T15:00:00Z"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "clientId": 5012,
+  "clientEmail": "buyer@restaurant.example",
+  "name": "Downtown Bistro",
+  "firstName": "Jordan",
+  "lastName": "Rivera",
+  "nickname": "DTB",
+  "catalogId": 700,
+  "orderFrequency": "Weekly",
+  "accountNumber": "ACCT-5012",
+  "netTerms": "Net 30",
+  "addresses": {},
+  "salesReps": [
+    3001
+  ],
+  "status": "Active"
+}

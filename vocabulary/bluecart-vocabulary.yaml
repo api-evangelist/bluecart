@@ -1,0 +1,244 @@
+vocabulary: "1.0.0"
+
+info:
+  provider: "BlueCart"
+  description: >-
+    Unified vocabulary for the BlueCart wholesale ordering and procurement
+    platform, mapping the operational dimension of the BlueCart REST API
+    (orders, products, catalogs, clients, users) to the capability dimension of
+    the Naftiko capabilities that compose those operations into foodservice
+    procurement workflows.
+  created: "2026-06-02"
+  modified: "2026-06-02"
+
+# OPERATIONAL DIMENSION (from OpenAPI)
+operational:
+  apis:
+    - name: "BlueCart API"
+      namespace: "bluecart"
+      version: "1.0"
+      baseUrl: "https://api.bluecart.com"
+      status: active
+  resources:
+    - name: orders
+      api: bluecart
+      actions: [search, retrieve, place, modify]
+    - name: products
+      api: bluecart
+      actions: [list, retrieve, create, update, delete]
+    - name: catalogs
+      api: bluecart
+      actions: [list, retrieve, create, update, delete]
+    - name: clients
+      api: bluecart
+      actions: [retrieve, create, update]
+    - name: users
+      api: bluecart
+      actions: [list, retrieve, create, update, disable]
+  actions:
+    - verb: search
+      httpMethod: GET
+      pattern: query
+    - verb: list
+      httpMethod: GET
+      pattern: query
+    - verb: retrieve
+      httpMethod: GET
+      pattern: read
+    - verb: place
+      httpMethod: POST
+      pattern: write
+    - verb: create
+      httpMethod: POST
+      pattern: write
+    - verb: modify
+      httpMethod: PUT
+      pattern: write
+    - verb: update
+      httpMethod: PUT
+      pattern: write
+    - verb: delete
+      httpMethod: DELETE
+      pattern: destructive
+    - verb: disable
+      httpMethod: DELETE
+      pattern: destructive
+  schemas:
+    core:
+      - Order
+      - Product
+      - Catalog
+      - Client
+      - User
+    requests:
+      - OrderCreate
+      - OrderUpdate
+      - ProductCreate
+      - CatalogCreate
+      - CatalogUpdate
+      - ClientCreate
+      - ClientUpdate
+      - UserCreate
+    collections:
+      - OrderList
+      - ProductList
+      - CatalogList
+      - UserList
+    lineItems:
+      - OrderProduct
+  parameters:
+    pagination:
+      - nextToken
+    identifiers:
+      - id
+    filters:
+      - status
+      - sku
+      - name
+      - description
+      - client
+      - vendor
+      - sortField
+      - creationStartDate
+      - creationEndDate
+      - requestedDeliveryStartDate
+      - requestedDeliveryEndDate
+      - deliveryStartDate
+      - deliveryEndDate
+      - shippingStartDate
+      - shippingEndDate
+  enums:
+    orderStatus:
+      - New
+      - Processing
+      - In-Transit/Shipped
+      - Fulfilled
+      - Cancelled
+    sortField:
+      - creationDate
+      - requestedDeliveryDate
+      - deliveryDate
+      - shippingDate
+  authentication:
+    scheme: AWS Signature Version 4
+    service: execute-api
+    region: us-east-1
+    apiKeyHeader: x-api-key
+    appliesTo:
+      - bluecart
+
+# CAPABILITY DIMENSION (from Naftiko)
+capability:
+  workflows:
+    - name: "BlueCart — Orders"
+      file: capabilities/bluecart-orders.yaml
+      description: Search, retrieve, place, and modify wholesale orders.
+      apis: [bluecart]
+      tools: 4
+      personas: [Distributor Operations, Buyer Procurement]
+      domains: [Ordering]
+    - name: "BlueCart — Products"
+      file: capabilities/bluecart-products.yaml
+      description: Manage the product catalog including pricing and inventory.
+      apis: [bluecart]
+      tools: 5
+      personas: [Catalog Manager]
+      domains: [Product Management]
+    - name: "BlueCart — Catalogs"
+      file: capabilities/bluecart-catalogs.yaml
+      description: Manage client-specific catalogs of products and pricing.
+      apis: [bluecart]
+      tools: 5
+      personas: [Catalog Manager, Sales Rep]
+      domains: [Product Management]
+    - name: "BlueCart — Clients"
+      file: capabilities/bluecart-clients.yaml
+      description: Manage buyer/client associations and their account details.
+      apis: [bluecart]
+      tools: 3
+      personas: [Sales Rep, Distributor Operations]
+      domains: [Customer Management]
+    - name: "BlueCart — Users"
+      file: capabilities/bluecart-users.yaml
+      description: Manage platform users, roles, and notifications.
+      apis: [bluecart]
+      tools: 5
+      personas: [Account Administrator]
+      domains: [Administration]
+  personas:
+    - id: distributor-operations
+      name: Distributor Operations
+      description: Distributor staff fulfilling and managing wholesale orders.
+      workflows: [bluecart-orders, bluecart-clients]
+    - id: buyer-procurement
+      name: Buyer Procurement
+      description: Restaurant/hospitality buyers placing wholesale orders.
+      workflows: [bluecart-orders]
+    - id: catalog-manager
+      name: Catalog Manager
+      description: Manages products, pricing, and client catalogs.
+      workflows: [bluecart-products, bluecart-catalogs]
+    - id: sales-rep
+      name: Sales Rep
+      description: Manages client relationships and assigned catalogs.
+      workflows: [bluecart-catalogs, bluecart-clients]
+    - id: account-administrator
+      name: Account Administrator
+      description: Manages platform users, roles, and notifications.
+      workflows: [bluecart-users]
+  domains:
+    - name: Ordering
+      resources: [orders]
+    - name: Product Management
+      resources: [products, catalogs]
+    - name: Customer Management
+      resources: [clients]
+    - name: Administration
+      resources: [users]
+  namespaces:
+    - consumed: bluecart-orders
+      rest: bluecart-orders-rest
+      mcp: bluecart-orders-mcp
+      ports: { rest: 8080, mcp: 9090 }
+    - consumed: bluecart-products
+      rest: bluecart-products-rest
+      mcp: bluecart-products-mcp
+      ports: { rest: 8080, mcp: 9090 }
+    - consumed: bluecart-catalogs
+      rest: bluecart-catalogs-rest
+      mcp: bluecart-catalogs-mcp
+      ports: { rest: 8080, mcp: 9090 }
+    - consumed: bluecart-clients
+      rest: bluecart-clients-rest
+      mcp: bluecart-clients-mcp
+      ports: { rest: 8080, mcp: 9090 }
+    - consumed: bluecart-users
+      rest: bluecart-users-rest
+      mcp: bluecart-users-mcp
+      ports: { rest: 8080, mcp: 9090 }
+  binds:
+    - var: BLUECART_API_KEY
+      workflows: [bluecart-orders, bluecart-products, bluecart-catalogs, bluecart-clients, bluecart-users]
+
+# CROSS-REFERENCE
+crossReference:
+  - resource: orders
+    operations: [searchOrders, retrieveOrder, placeOrder, modifyOrder]
+    workflows: [bluecart-orders]
+    personas: [Distributor Operations, Buyer Procurement]
+  - resource: products
+    operations: [retrieveAllProducts, retrieveProduct, createProduct, updateProduct, deleteProduct]
+    workflows: [bluecart-products]
+    personas: [Catalog Manager]
+  - resource: catalogs
+    operations: [retrieveAllCatalogs, retrieveCatalog, createCatalog, updateCatalog, deleteCatalog]
+    workflows: [bluecart-catalogs]
+    personas: [Catalog Manager, Sales Rep]
+  - resource: clients
+    operations: [retrieveClient, createClient, updateClient]
+    workflows: [bluecart-clients]
+    personas: [Sales Rep, Distributor Operations]
+  - resource: users
+    operations: [listUsers, retrieveUser, createUser, updateUser, disableUser]
+    workflows: [bluecart-users]
+    personas: [Account Administrator]

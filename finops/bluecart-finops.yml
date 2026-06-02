@@ -1,0 +1,85 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: BlueCart
+providerId: bluecart
+created: '2026-06-02'
+modified: '2026-06-02'
+reconciled: false
+tags:
+  - FinOps
+  - FOCUS
+  - Wholesale
+  - Procurement
+  - eCommerce
+description: >-
+  FOCUS-aligned FinOps for BlueCart: a subscription SaaS platform for food and
+  beverage wholesale distributors, billed as a recurring platform subscription
+  (sales-led, quote-based) with the REST API included rather than metered
+  separately.
+sources:
+  - https://www.bluecart.com/
+  - https://docs.bluecart.com/authentication
+  - https://www.getapp.com/retail-consumer-services-software/a/bluecart/pricing/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: BlueCart, Inc.
+serviceCategory: Wholesale Commerce + Procurement
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+    - Purchase
+    - Tax
+focusColumns:
+  ServiceName: BlueCart
+  ServiceCategory: Wholesale Commerce + Procurement
+  ProviderName: BlueCart
+  PublisherName: BlueCart, Inc.
+  InvoiceIssuerName: BlueCart, Inc.
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+meters:
+  - name: platform_subscription
+    unit: month
+    aggregation: sum
+    dimensions:
+      - plan
+  - name: api_access
+    unit: month
+    aggregation: max
+    dimensions:
+      - plan
+  - name: connected_buyers
+    unit: varies
+    aggregation: count
+    dimensions:
+      - account
+principles:
+  - name: Visibility
+    description: >-
+      Subscription charges are visible on the BlueCart invoice and in the
+      in-app account/billing area. API consumption itself is not separately
+      metered; track API usage operationally via your own client logging and the
+      BlueCart application logs surfaced in the developer docs.
+  - name: Allocation
+    description: >-
+      Attribute the platform subscription to the distributor account; within a
+      distributor, allocate cost to operations by associating BlueCart users
+      (Settings, Users) and client/catalog assignments to internal teams.
+  - name: Optimization
+    description: >-
+      Match the subscription tier to distributor size and feature need (custom
+      tier for larger operations). Because the API is included, optimize
+      integration cost on your side by using next-token pagination efficiently
+      and avoiding redundant single-object calls (the API has no bulk updates).
+  - name: Accountability
+    description: >-
+      The account owner who manages API Access Credentials (Settings, API Access
+      Credentials) and the platform subscription owns BlueCart spend; review the
+      plan tier and connected-buyer footprint at renewal.

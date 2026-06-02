@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-order-update-structure.json",
+  "name": "OrderUpdate",
+  "description": "Payload for modifying an existing order.",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "type": "int64",
+      "description": "Identifier of the user making the change.",
+      "example": 3001
+    },
+    "status": {
+      "type": "string",
+      "description": "New order status.",
+      "enum": [
+        "New",
+        "Processing",
+        "In-Transit/Shipped",
+        "Fulfilled",
+        "Cancelled"
+      ],
+      "example": "Processing"
+    },
+    "deliveryCharge": {
+      "type": "float",
+      "description": "Updated delivery charge.",
+      "example": 25
+    },
+    "requestedDeliveryDate": {
+      "type": "date",
+      "example": "2026-06-10"
+    },
+    "deliveryDate": {
+      "type": "date",
+      "example": "2026-06-10"
+    },
+    "shippingDate": {
+      "type": "date",
+      "example": "2026-06-09"
+    },
+    "paymentStatus": {
+      "type": "string",
+      "description": "Payment status for the order.",
+      "example": "Paid"
+    },
+    "trackingInfo": {
+      "type": "string",
+      "description": "Shipment tracking information.",
+      "example": "1Z999AA10123456784"
+    },
+    "addresses": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "title": "OrderProduct",
+        "type": "object",
+        "description": "A line item within an order.",
+        "x-schema-source": "documentation",
+        "x-source-url": "https://docs.bluecart.com/endpoints",
+        "properties": {
+          "productId": {
+            "type": "int64",
+            "description": "Identifier of the product.",
+            "example": 90210
+          },
+          "sku": {
+            "type": "string",
+            "description": "Stock keeping unit of the product.",
+            "example": "WINE-CAB-750"
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name.",
+            "example": "Cabernet Sauvignon 750ml"
+          },
+          "quantity": {
+            "type": "double",
+            "description": "Quantity ordered.",
+            "example": 12
+          },
+          "price": {
+            "type": "float",
+            "description": "Unit price for this line item.",
+            "example": 18.5
+          }
+        }
+      }
+    }
+  }
+}

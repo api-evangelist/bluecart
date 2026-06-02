@@ -1,0 +1,13 @@
+{
+  "firstName": "Jordan",
+  "lastName": "Rivera",
+  "catalogId": 700,
+  "orderFrequency": "Weekly",
+  "accountNumber": "ACCT-5012",
+  "nickname": "DTB",
+  "addresses": {},
+  "salesReps": [
+    1
+  ],
+  "status": "Active"
+}

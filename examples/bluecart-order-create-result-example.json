@@ -1,0 +1,30 @@
+{
+  "order": {
+    "orderId": 100245,
+    "clientId": 5012,
+    "vendorId": 880,
+    "status": "New",
+    "deliveryType": "Delivery",
+    "currency": "USD",
+    "deliveryCharge": 25,
+    "requestedDeliveryDate": "2026-06-10",
+    "deliveryDate": "2026-06-10",
+    "shippingDate": "2026-06-09",
+    "creationDate": "2026-06-02T14:30:00Z",
+    "lastUpdateDate": "2026-06-02T15:00:00Z",
+    "products": [
+      {
+        "productId": {},
+        "sku": {},
+        "name": {},
+        "quantity": {},
+        "price": {}
+      }
+    ],
+    "addresses": {},
+    "totals": {}
+  },
+  "warnings": [
+    "Requested delivery date is outside the standard window."
+  ]
+}

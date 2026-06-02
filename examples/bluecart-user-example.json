@@ -1,0 +1,17 @@
+{
+  "id": 3001,
+  "firstName": "Alex",
+  "lastName": "Morgan",
+  "email": "alex.morgan@distributor.example",
+  "enabled": true,
+  "notify": true,
+  "role": "Admin",
+  "phone": "+15555550123",
+  "reportsTo": 3000,
+  "notificationTypes": [
+    "OrderPlaced",
+    "OrderShipped"
+  ],
+  "creationDateTime": "2026-06-02T14:30:00Z",
+  "lastUpdateDateTime": "2026-06-02T15:00:00Z"
+}

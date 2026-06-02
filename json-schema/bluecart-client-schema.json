@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Client",
+  "description": "A buyer/client associated with the distributor.",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-schema/bluecart-client-schema.json",
+  "type": "object",
+  "properties": {
+    "clientId": {
+      "type": "integer",
+      "format": "int64",
+      "example": 5012
+    },
+    "clientEmail": {
+      "type": "string",
+      "format": "email",
+      "example": "buyer@restaurant.example"
+    },
+    "name": {
+      "type": "string",
+      "example": "Downtown Bistro"
+    },
+    "firstName": {
+      "type": "string",
+      "example": "Jordan"
+    },
+    "lastName": {
+      "type": "string",
+      "example": "Rivera"
+    },
+    "nickname": {
+      "type": "string",
+      "example": "DTB"
+    },
+    "catalogId": {
+      "type": "integer",
+      "format": "int64",
+      "example": 700
+    },
+    "orderFrequency": {
+      "type": "string",
+      "example": "Weekly"
+    },
+    "accountNumber": {
+      "type": "string",
+      "example": "ACCT-5012"
+    },
+    "netTerms": {
+      "type": "string",
+      "example": "Net 30"
+    },
+    "addresses": {
+      "type": "object",
+      "description": "Billing and shipping addresses.",
+      "additionalProperties": true
+    },
+    "salesReps": {
+      "type": "array",
+      "description": "Sales rep identifiers assigned to the client.",
+      "items": {
+        "type": "integer",
+        "format": "int64"
+      },
+      "example": [
+        3001
+      ]
+    },
+    "status": {
+      "type": "string",
+      "example": "Active"
+    }
+  }
+}

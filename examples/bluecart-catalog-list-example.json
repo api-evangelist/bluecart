@@ -1,0 +1,16 @@
+{
+  "catalogs": [
+    {
+      "catalogId": 700,
+      "catalogName": "Premium Wines",
+      "enabled": true,
+      "products": [
+        {}
+      ],
+      "clients": [
+        {}
+      ]
+    }
+  ],
+  "nextToken": "eyJsYXN0SWQiOjcwMH0="
+}

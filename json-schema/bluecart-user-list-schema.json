@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UserList",
+  "description": "A paginated list of users.",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-schema/bluecart-user-list-schema.json",
+  "type": "object",
+  "properties": {
+    "users": {
+      "type": "array",
+      "items": {
+        "title": "User",
+        "type": "object",
+        "description": "A platform user.",
+        "x-schema-source": "documentation",
+        "x-source-url": "https://docs.bluecart.com/endpoints",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3001
+          },
+          "firstName": {
+            "type": "string",
+            "example": "Alex"
+          },
+          "lastName": {
+            "type": "string",
+            "example": "Morgan"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "alex.morgan@distributor.example"
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          },
+          "notify": {
+            "type": "boolean",
+            "example": true
+          },
+          "role": {
+            "type": "string",
+            "example": "Admin"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+15555550123"
+          },
+          "reportsTo": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3000
+          },
+          "notificationTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "OrderPlaced",
+              "OrderShipped"
+            ]
+          },
+          "creationDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-02T14:30:00Z"
+          },
+          "lastUpdateDateTime": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-06-02T15:00:00Z"
+          }
+        }
+      }
+    },
+    "nextToken": {
+      "type": "string",
+      "example": "eyJsYXN0SWQiOjMwMDF9"
+    }
+  }
+}

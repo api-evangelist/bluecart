@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-client-update-structure.json",
+  "name": "ClientUpdate",
+  "description": "Payload for updating a client.",
+  "type": "object",
+  "properties": {
+    "firstName": {
+      "type": "string",
+      "example": "Jordan"
+    },
+    "lastName": {
+      "type": "string",
+      "example": "Rivera"
+    },
+    "catalogId": {
+      "type": "int64",
+      "example": 700
+    },
+    "orderFrequency": {
+      "type": "string",
+      "example": "Weekly"
+    },
+    "accountNumber": {
+      "type": "string",
+      "example": "ACCT-5012"
+    },
+    "nickname": {
+      "type": "string",
+      "example": "DTB"
+    },
+    "addresses": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "salesReps": {
+      "type": "array",
+      "items": {
+        "type": "int64"
+      }
+    },
+    "status": {
+      "type": "string",
+      "example": "Active"
+    }
+  }
+}

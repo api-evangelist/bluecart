@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OrderList",
+  "description": "A paginated list of orders.",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-schema/bluecart-order-list-schema.json",
+  "type": "object",
+  "properties": {
+    "orders": {
+      "type": "array",
+      "items": {
+        "title": "Order",
+        "type": "object",
+        "description": "A wholesale order between a client and a vendor.",
+        "x-schema-source": "documentation",
+        "x-source-url": "https://docs.bluecart.com/endpoints",
+        "properties": {
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unique order identifier.",
+            "example": 100245
+          },
+          "clientId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the client placing the order.",
+            "example": 5012
+          },
+          "vendorId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Identifier of the vendor fulfilling the order.",
+            "example": 880
+          },
+          "status": {
+            "type": "string",
+            "description": "Current order status.",
+            "enum": [
+              "New",
+              "Processing",
+              "In-Transit/Shipped",
+              "Fulfilled",
+              "Cancelled"
+            ],
+            "example": "New"
+          },
+          "deliveryType": {
+            "type": "string",
+            "description": "Delivery method for the order.",
+            "example": "Delivery"
+          },
+          "currency": {
+            "type": "string",
+            "description": "ISO currency code for monetary amounts.",
+            "example": "USD"
+          },
+          "deliveryCharge": {
+            "type": "number",
+            "format": "float",
+            "description": "Delivery charge applied to the order.",
+            "example": 25
+          },
+          "requestedDeliveryDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date delivery was requested for.",
+            "example": "2026-06-10"
+          },
+          "deliveryDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Actual delivery date.",
+            "example": "2026-06-10"
+          },
+          "shippingDate": {
+            "type": "string",
+            "format": "date",
+            "description": "Date the order shipped.",
+            "example": "2026-06-09"
+          },
+          "creationDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp the order was created.",
+            "example": "2026-06-02T14:30:00Z"
+          },
+          "lastUpdateDate": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp the order was last updated.",
+            "example": "2026-06-02T15:00:00Z"
+          },
+          "products": {
+            "type": "array",
+            "description": "Line items in the order.",
+            "items": {
+              "title": "OrderProduct",
+              "type": "object",
+              "description": "A line item within an order.",
+              "x-schema-source": "documentation",
+              "x-source-url": "https://docs.bluecart.com/endpoints",
+              "properties": {
+                "productId": {
+                  "type": "integer",
+                  "format": "int64",
+                  "description": "Identifier of the product.",
+                  "example": 90210
+                },
+                "sku": {
+                  "type": "string",
+                  "description": "Stock keeping unit of the product.",
+                  "example": "WINE-CAB-750"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "Product name.",
+                  "example": "Cabernet Sauvignon 750ml"
+                },
+                "quantity": {
+                  "type": "number",
+                  "description": "Quantity ordered.",
+                  "example": 12
+                },
+                "price": {
+                  "type": "number",
+                  "format": "float",
+                  "description": "Unit price for this line item.",
+                  "example": 18.5
+                }
+              }
+            }
+          },
+          "addresses": {
+            "type": "object",
+            "description": "Billing and shipping addresses for the order.",
+            "additionalProperties": true
+          },
+          "totals": {
+            "type": "object",
+            "description": "Computed monetary totals for the order.",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "nextToken": {
+      "type": "string",
+      "description": "Token to retrieve the next page; absent on the last page.",
+      "example": "eyJsYXN0SWQiOjEwMDI0NX0="
+    }
+  }
+}

@@ -6,11 +6,11 @@ description: >-
   buyers with wholesale distributors and suppliers. It streamlines wholesale
   ordering, order management, inventory, and payments for both sides of the
   supply chain. BlueCart exposes a public REST API that lets distributors and
-  partners programmatically manage products, orders, customers, and related
-  resources, returning JSON responses and integrating BlueCart data with
-  external accounting, eCommerce, and logistics systems used across foodservice
+  partners programmatically manage products, orders, customers, catalogs, and
+  users, returning JSON responses and integrating BlueCart data with external
+  accounting, eCommerce, and logistics systems used across foodservice
   operations.
-type: Index
+type: Company
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
   - Restaurant
@@ -30,16 +30,21 @@ apis:
     description: >-
       The BlueCart API is defined using REST with predictable, resource-oriented
       URLs and returns JSON-encoded responses with standard HTTP status codes.
-      It is authenticated using AWS Signature Version 4, requiring an Access Key
-      ID, Secret Access Key, and API Key generated from the BlueCart app under
+      It is authenticated using AWS Signature Version 4 against the AWS
+      execute-api service in the us-east-1 region, requiring an Access Key ID,
+      Secret Access Key, and API Key generated from the BlueCart app under
       Settings, API Access Credentials. The API operates on one object per
-      request and does not support bulk updates, and a Postman collection is
-      provided to help developers make their first request.
+      request and does not support bulk updates, uses next-token pagination
+      returning 25 items per page on collection endpoints, and ships with a
+      Postman collection to help developers make their first request. It exposes
+      resources for orders, products, catalogs, clients, and users.
     humanURL: https://docs.bluecart.com/
     tags:
       - Orders
       - Products
-      - Customers
+      - Catalogs
+      - Clients
+      - Users
       - Procurement
     properties:
       - type: Documentation
@@ -48,15 +53,50 @@ apis:
         url: https://docs.bluecart.com/authentication
       - type: GettingStarted
         url: https://docs.bluecart.com/running-your-first-request
+      - type: Pagination
+        url: https://docs.bluecart.com/pagination
+      - type: OpenAPI
+        url: openapi/bluecart-openapi.yml
+      - type: NaftikoCapability
+        url: capabilities/bluecart-orders.yaml
+      - type: NaftikoCapability
+        url: capabilities/bluecart-products.yaml
+      - type: NaftikoCapability
+        url: capabilities/bluecart-catalogs.yaml
+      - type: NaftikoCapability
+        url: capabilities/bluecart-clients.yaml
+      - type: NaftikoCapability
+        url: capabilities/bluecart-users.yaml
+    contact:
+      - FN: BlueCart
+        url: https://www.bluecart.com/contact
 common:
   - type: Website
     url: https://www.bluecart.com/
   - type: Documentation
     url: https://docs.bluecart.com/
   - type: APIReference
-    url: https://docs.bluecart.com/
+    url: https://docs.bluecart.com/endpoints
+  - type: Authentication
+    url: https://docs.bluecart.com/authentication
+  - type: Pagination
+    url: https://docs.bluecart.com/pagination
   - type: Support
     url: https://www.bluecart.com/contact
+  - type: SignUp
+    url: https://www.bluecart.com/
+  - type: Rules
+    url: rules/bluecart-spectral-rules.yml
+  - type: Vocabulary
+    url: vocabulary/bluecart-vocabulary.yaml
+  - type: JSONLD
+    url: json-ld/bluecart-context.jsonld
+  - type: Plans
+    url: plans/bluecart-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/bluecart-rate-limits.yml
+  - type: FinOps
+    url: finops/bluecart-finops.yml
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

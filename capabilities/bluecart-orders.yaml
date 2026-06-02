@@ -1,0 +1,311 @@
+naftiko: 1.0.0-alpha2
+info:
+  label: BlueCart API — Orders
+  description: 'Orders surface of the BlueCart API. 4 operations. Lead operation: Search For Orders. Self-contained Naftiko capability covering one BlueCart business surface.'
+  tags:
+  - BlueCart
+  - Procurement
+  - Orders
+  created: '2026-06-02'
+  modified: '2026-06-02'
+binds:
+- namespace: env
+  keys:
+    BLUECART_API_KEY: BLUECART_API_KEY
+capability:
+  consumes:
+  - type: http
+    namespace: bluecart-orders
+    baseUri: https://api.bluecart.com
+    description: BlueCart API — Orders business capability. Self-contained, no shared references.
+    authentication:
+      type: apikey
+      key: x-api-key
+      value: '{{env.BLUECART_API_KEY}}'
+      placement: header
+    resources:
+    - name: orders
+      path: /orders/
+      operations:
+      - name: searchOrders
+        method: GET
+        description: Search For Orders
+        inputParameters:
+        - name: client
+          in: query
+          type: boolean
+          required: false
+          description: Include client information in the response.
+        - name: vendor
+          in: query
+          type: boolean
+          required: false
+          description: Include vendor information in the response.
+        - name: status
+          in: query
+          type: string
+          required: false
+          description: Filter orders by status.
+        - name: sortField
+          in: query
+          type: string
+          required: false
+          description: Field to sort results by.
+        - name: creationStartDate
+          in: query
+          type: string
+          required: false
+          description: Filter by order creation start date (YYYY-MM-DD).
+        - name: creationEndDate
+          in: query
+          type: string
+          required: false
+          description: Filter by order creation end date (YYYY-MM-DD).
+        - name: requestedDeliveryStartDate
+          in: query
+          type: string
+          required: false
+          description: Filter by requested delivery start date (YYYY-MM-DD).
+        - name: requestedDeliveryEndDate
+          in: query
+          type: string
+          required: false
+          description: Filter by requested delivery end date (YYYY-MM-DD).
+        - name: deliveryStartDate
+          in: query
+          type: string
+          required: false
+          description: Filter by delivery start date (YYYY-MM-DD).
+        - name: deliveryEndDate
+          in: query
+          type: string
+          required: false
+          description: Filter by delivery end date (YYYY-MM-DD).
+        - name: shippingStartDate
+          in: query
+          type: string
+          required: false
+          description: Filter by shipping start date (YYYY-MM-DD).
+        - name: shippingEndDate
+          in: query
+          type: string
+          required: false
+          description: Filter by shipping end date (YYYY-MM-DD).
+        - name: nextToken
+          in: query
+          type: string
+          required: false
+          description: Pagination token returned by a previous page; omit for the first page.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orders
+      path: /orders/
+      operations:
+      - name: placeOrder
+        method: POST
+        description: Place An Order
+        inputParameters:
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Request payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orders-id
+      path: /orders/{id}
+      operations:
+      - name: retrieveOrder
+        method: GET
+        description: Retrieve An Order
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Order identifier.
+        - name: client
+          in: query
+          type: boolean
+          required: false
+          description: Include client information in the response.
+        - name: vendor
+          in: query
+          type: boolean
+          required: false
+          description: Include vendor information in the response.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+    - name: orders-id
+      path: /orders/{id}
+      operations:
+      - name: modifyOrder
+        method: PUT
+        description: Modify An Order
+        inputParameters:
+        - name: id
+          in: path
+          type: integer
+          required: true
+          description: Order identifier.
+        - name: body
+          in: body
+          type: object
+          required: true
+          description: Request payload.
+        outputRawFormat: json
+        outputParameters:
+        - name: result
+          type: object
+          value: $.
+  exposes:
+  - type: rest
+    namespace: bluecart-orders-rest
+    port: 8080
+    description: REST adapter for BlueCart API — Orders. One Spectral-compliant resource per consumed operation, prefixed with /v1.
+    resources:
+    - path: /v1/orders
+      name: orders
+      description: REST surface for Search For Orders.
+      operations:
+      - method: GET
+        name: searchOrders
+        description: Search For Orders
+        call: bluecart-orders.searchOrders
+        with:
+          client: rest.client
+          vendor: rest.vendor
+          status: rest.status
+          sortField: rest.sortField
+          creationStartDate: rest.creationStartDate
+          creationEndDate: rest.creationEndDate
+          requestedDeliveryStartDate: rest.requestedDeliveryStartDate
+          requestedDeliveryEndDate: rest.requestedDeliveryEndDate
+          deliveryStartDate: rest.deliveryStartDate
+          deliveryEndDate: rest.deliveryEndDate
+          shippingStartDate: rest.shippingStartDate
+          shippingEndDate: rest.shippingEndDate
+          nextToken: rest.nextToken
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders
+      name: orders
+      description: REST surface for Place An Order.
+      operations:
+      - method: POST
+        name: placeOrder
+        description: Place An Order
+        call: bluecart-orders.placeOrder
+        with:
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders-id
+      name: orders-id
+      description: REST surface for Retrieve An Order.
+      operations:
+      - method: GET
+        name: retrieveOrder
+        description: Retrieve An Order
+        call: bluecart-orders.retrieveOrder
+        with:
+          id: rest.id
+          client: rest.client
+          vendor: rest.vendor
+        outputParameters:
+        - type: object
+          mapping: $.
+    - path: /v1/orders-id
+      name: orders-id
+      description: REST surface for Modify An Order.
+      operations:
+      - method: PUT
+        name: modifyOrder
+        description: Modify An Order
+        call: bluecart-orders.modifyOrder
+        with:
+          id: rest.id
+          body: rest.body
+        outputParameters:
+        - type: object
+          mapping: $.
+  - type: mcp
+    namespace: bluecart-orders-mcp
+    port: 9090
+    transport: http
+    description: MCP adapter for BlueCart API — Orders. One tool per consumed operation, routed inline through this capability's consumes block.
+    tools:
+    - name: search-orders
+      description: Search For Orders
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bluecart-orders.searchOrders
+      with:
+        client: tools.client
+        vendor: tools.vendor
+        status: tools.status
+        sortField: tools.sortField
+        creationStartDate: tools.creationStartDate
+        creationEndDate: tools.creationEndDate
+        requestedDeliveryStartDate: tools.requestedDeliveryStartDate
+        requestedDeliveryEndDate: tools.requestedDeliveryEndDate
+        deliveryStartDate: tools.deliveryStartDate
+        deliveryEndDate: tools.deliveryEndDate
+        shippingStartDate: tools.shippingStartDate
+        shippingEndDate: tools.shippingEndDate
+        nextToken: tools.nextToken
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: place-order
+      description: Place An Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: false
+      call: bluecart-orders.placeOrder
+      with:
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: retrieve-order
+      description: Retrieve An Order
+      hints:
+        readOnly: true
+        destructive: false
+        idempotent: true
+      call: bluecart-orders.retrieveOrder
+      with:
+        id: tools.id
+        client: tools.client
+        vendor: tools.vendor
+      outputParameters:
+      - type: object
+        mapping: $.
+    - name: modify-order
+      description: Modify An Order
+      hints:
+        readOnly: false
+        destructive: false
+        idempotent: true
+      call: bluecart-orders.modifyOrder
+      with:
+        id: tools.id
+        body: tools.body
+      outputParameters:
+      - type: object
+        mapping: $.

@@ -1,0 +1,22 @@
+{
+  "products": [
+    {
+      "productId": 90210,
+      "productName": "Cabernet Sauvignon 750ml",
+      "sku": "WINE-CAB-750",
+      "description": "Estate-bottled Cabernet Sauvignon, vintage 2022.",
+      "uom": "Bottle",
+      "price": 18.5,
+      "pack": 12,
+      "tags": [
+        "Wine",
+        "Red"
+      ],
+      "inventory": {},
+      "discounts": {},
+      "creationDateTime": "2026-06-02T14:30:00Z",
+      "lastUpdateDateTime": "2026-06-02T15:00:00Z"
+    }
+  ],
+  "nextToken": "eyJsYXN0SWQiOjkwMjEwfQ=="
+}

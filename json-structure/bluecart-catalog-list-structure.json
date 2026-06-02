@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-structure.org/meta/core/v0/#",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-structure/bluecart-catalog-list-structure.json",
+  "name": "CatalogList",
+  "description": "A paginated list of catalogs.",
+  "type": "object",
+  "properties": {
+    "catalogs": {
+      "type": "array",
+      "items": {
+        "title": "Catalog",
+        "type": "object",
+        "description": "A catalog of products and pricing assigned to clients.",
+        "x-schema-source": "documentation",
+        "x-source-url": "https://docs.bluecart.com/endpoints",
+        "properties": {
+          "catalogId": {
+            "type": "int64",
+            "example": 700
+          },
+          "catalogName": {
+            "type": "string",
+            "example": "Premium Wines"
+          },
+          "enabled": {
+            "type": "boolean",
+            "example": true
+          },
+          "products": {
+            "type": "array",
+            "description": "Products in the catalog with pricing and discounts.",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          },
+          "clients": {
+            "type": "array",
+            "description": "Clients the catalog is assigned to.",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      }
+    },
+    "nextToken": {
+      "type": "string",
+      "example": "eyJsYXN0SWQiOjcwMH0="
+    }
+  }
+}

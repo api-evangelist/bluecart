@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CatalogUpdate",
+  "description": "Payload for updating a catalog.",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/json-schema/bluecart-catalog-update-schema.json",
+  "type": "object",
+  "properties": {
+    "catalogName": {
+      "type": "string",
+      "example": "Premium Wines"
+    },
+    "enabled": {
+      "type": "boolean",
+      "example": true
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "customers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  }
+}

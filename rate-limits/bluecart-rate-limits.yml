@@ -1,0 +1,65 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: BlueCart
+providerId: bluecart
+created: '2026-06-02'
+modified: '2026-06-02'
+reconciled: false
+tags:
+  - Rate Limiting
+  - Wholesale
+  - Procurement
+  - eCommerce
+description: >-
+  The public BlueCart API documentation at docs.bluecart.com does not publish
+  explicit per-second, per-minute, or per-key request-rate numbers. The API is
+  fronted by AWS API Gateway (AWS Signature Version 4 against the execute-api
+  service in us-east-1), so account-level throttling and burst limits are
+  enforced at the API Gateway tier and would surface as HTTP 429 responses; the
+  exact values are not documented publicly and would be governed by the
+  account's API Gateway usage plan. Collection endpoints enforce a fixed page
+  size of 25 items via next-token cursor pagination, and the API operates on a
+  single object per request (no bulk updates), which bounds per-request work.
+  All numeric limits below are unconfirmed against published BlueCart docs.
+sources:
+  - https://docs.bluecart.com/
+  - https://docs.bluecart.com/authentication
+  - https://docs.bluecart.com/pagination
+responseCodes:
+  throttled: 429
+  quotaExceeded: 429
+limits:
+  - name: API Gateway request throttling
+    scope: account
+    metric: requests_per_second
+    limit: 'governed by the account AWS API Gateway usage plan; not published in BlueCart docs'
+    notes: >-
+      BlueCart fronts the API with AWS API Gateway. Steady-state rate and burst
+      are configured per usage plan and not documented publicly.
+  - name: Collection page size
+    scope: account
+    metric: varies
+    limit: '25 items per page (fixed; defined in the internal pagination configuration for the resource)'
+    notes: >-
+      Search/list endpoints return 25 records per page and require the returned
+      nextToken to fetch subsequent pages.
+  - name: Objects per request
+    scope: account
+    metric: varies
+    limit: '1 object per request (no bulk updates)'
+    notes: The API works on only one object per request.
+policies:
+  - name: Cursor pagination
+    description: >-
+      Use the nextToken returned in each collection response to retrieve the
+      next page. When no nextToken is returned, the final page has been reached.
+  - name: AWS SigV4 signing
+    description: >-
+      Every request must be signed with AWS Signature Version 4 using the
+      Access Key ID and Secret Access Key, with the BlueCart API Key supplied in
+      the x-api-key header. Unsigned or mis-signed requests are rejected.
+  - name: Retry on throttling
+    description: >-
+      On HTTP 429 responses, back off and retry with exponential backoff, as is
+      standard for AWS API Gateway-fronted APIs.

@@ -1,15 +1,12 @@
 aid: bluecart
 name: BlueCart
 description: >-
-  BlueCart is an end-to-end eCommerce and procurement platform for the
-  hospitality and food and beverage industries, connecting restaurants and
-  buyers with wholesale distributors and suppliers. It streamlines wholesale
-  ordering, order management, inventory, and payments for both sides of the
-  supply chain. BlueCart exposes a public REST API that lets distributors and
-  partners programmatically manage products, orders, customers, catalogs, and
-  users, returning JSON responses and integrating BlueCart data with external
-  accounting, eCommerce, and logistics systems used across foodservice
-  operations.
+  BlueCart is an end-to-end eCommerce and procurement platform for the hospitality and food and beverage industries,
+  connecting restaurants and buyers with wholesale distributors and suppliers. It streamlines wholesale ordering, order
+  management, inventory, and payments for both sides of the supply chain. BlueCart exposes a public REST API that lets
+  distributors and partners programmatically manage products, orders, customers, catalogs, and users, returning JSON
+  responses and integrating BlueCart data with external accounting, eCommerce, and logistics systems used across
+  foodservice operations.
 type: Company
 image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
 tags:
@@ -28,16 +25,13 @@ apis:
   - aid: bluecart:rest-api
     name: BlueCart API
     description: >-
-      The BlueCart API is defined using REST with predictable, resource-oriented
-      URLs and returns JSON-encoded responses with standard HTTP status codes.
-      It is authenticated using AWS Signature Version 4 against the AWS
-      execute-api service in the us-east-1 region, requiring an Access Key ID,
-      Secret Access Key, and API Key generated from the BlueCart app under
-      Settings, API Access Credentials. The API operates on one object per
-      request and does not support bulk updates, uses next-token pagination
-      returning 25 items per page on collection endpoints, and ships with a
-      Postman collection to help developers make their first request. It exposes
-      resources for orders, products, catalogs, clients, and users.
+      The BlueCart API is defined using REST with predictable, resource-oriented URLs and returns JSON-encoded responses
+      with standard HTTP status codes. It is authenticated using AWS Signature Version 4 against the AWS execute-api
+      service in the us-east-1 region, requiring an Access Key ID, Secret Access Key, and API Key generated from the
+      BlueCart app under Settings, API Access Credentials. The API operates on one object per request and does not
+      support bulk updates, uses next-token pagination returning 25 items per page on collection endpoints, and ships
+      with a Postman collection to help developers make their first request. It exposes resources for orders, products,
+      catalogs, clients, and users.
     humanURL: https://docs.bluecart.com/
     tags:
       - Orders
@@ -57,16 +51,6 @@ apis:
         url: https://docs.bluecart.com/pagination
       - type: OpenAPI
         url: openapi/bluecart-openapi.yml
-      - type: NaftikoCapability
-        url: capabilities/bluecart-orders.yaml
-      - type: NaftikoCapability
-        url: capabilities/bluecart-products.yaml
-      - type: NaftikoCapability
-        url: capabilities/bluecart-catalogs.yaml
-      - type: NaftikoCapability
-        url: capabilities/bluecart-clients.yaml
-      - type: NaftikoCapability
-        url: capabilities/bluecart-users.yaml
     contact:
       - FN: BlueCart
         url: https://www.bluecart.com/contact

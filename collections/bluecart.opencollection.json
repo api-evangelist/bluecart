@@ -1,0 +1,578 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlueCart API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search For Orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/orders/",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "query",
+                "description": "Include client information in the response."
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query",
+                "description": "Include vendor information in the response."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by status."
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "creationStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order creation start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "creationEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order creation end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "requestedDeliveryStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by requested delivery start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "requestedDeliveryEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by requested delivery end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "deliveryStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by delivery start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "deliveryEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by delivery end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "shippingStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by shipping start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "shippingEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by shipping end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of orders (25 at a time) filtered by the supplied search parameters. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Place An Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/orders/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new wholesale order on behalf of a client."
+        },
+        {
+          "info": {
+            "name": "Retrieve An Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/orders/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier."
+              },
+              {
+                "name": "client",
+                "value": "",
+                "type": "query",
+                "description": "Include client information in the response."
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query",
+                "description": "Include vendor information in the response."
+              }
+            ]
+          },
+          "docs": "Retrieves a single order by its identifier."
+        },
+        {
+          "info": {
+            "name": "Modify An Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/orders/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing order identified by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve All Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/products/",
+            "params": [
+              {
+                "name": "sku",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by SKU."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by name."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by description."
+              },
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of products (25 at a time) filtered by optional search parameters. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Create A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/api/products/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product in the catalog."
+        },
+        {
+          "info": {
+            "name": "Retrieve A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single product by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/api/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing product identified by its identifier."
+        },
+        {
+          "info": {
+            "name": "Delete A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{invokeUrl}/api/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier."
+              }
+            ]
+          },
+          "docs": "Deletes a product identified by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Catalogs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve All Catalogs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/catalogs/",
+            "params": [
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of catalogs. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Create A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/api/catalogs/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new catalog with products and assigned customers."
+        },
+        {
+          "info": {
+            "name": "Retrieve A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/catalogs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Catalog identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single catalog by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/api/catalogs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Catalog identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing catalog identified by its identifier."
+        },
+        {
+          "info": {
+            "name": "Delete A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{invokeUrl}/api/catalogs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Catalog identifier."
+              }
+            ]
+          },
+          "docs": "Deletes a catalog identified by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Clients",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create A Client Association",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/api/clients/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new client association linking a buyer to the distributor, including catalog assignment, ordering, and account details."
+        },
+        {
+          "info": {
+            "name": "Retrieve A Client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/clients/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Client identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single client by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Client",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/api/clients/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Client identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing client identified by its identifier."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/users/",
+            "params": [
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of users. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Create A User",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/users/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new platform user."
+        },
+        {
+          "info": {
+            "name": "Retrieve A User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "User identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single user by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A User",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "User identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing user identified by its identifier."
+        },
+        {
+          "info": {
+            "name": "Disable A User",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{invokeUrl}/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "User identifier."
+              }
+            ]
+          },
+          "docs": "Disables a user identified by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

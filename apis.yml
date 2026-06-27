@@ -67,7 +67,7 @@ common:
     url: https://docs.bluecart.com/pagination
   - type: Support
     url: https://www.bluecart.com/contact
-  - type: SignUp
+  - type: Signup
     url: https://www.bluecart.com/
   - type: Rules
     url: rules/bluecart-spectral-rules.yml

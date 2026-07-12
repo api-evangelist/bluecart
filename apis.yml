@@ -55,6 +55,10 @@ apis:
       - FN: BlueCart
         url: https://www.bluecart.com/contact
 common:
+  - type: DomainSecurity
+    url: security/bluecart-domain-security.yml
+  - type: Authentication
+    url: authentication/bluecart-authentication.yml
   - type: Website
     url: https://www.bluecart.com/
   - type: Documentation
@@ -81,6 +85,8 @@ common:
     url: rate-limits/bluecart-rate-limits.yml
   - type: FinOps
     url: finops/bluecart-finops.yml
+  - url: https://www.bluecart.com/blog
+    type: Blog
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com

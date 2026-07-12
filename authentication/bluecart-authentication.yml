@@ -1,0 +1,25 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/bluecart-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: awsSigV4
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: AWS Signature Version 4 authorization against the AWS execute-api service in
+    us-east-1. Requires an Access Key ID, Secret Access Key, and API Key generated in the BlueCart
+    app under Settings, API Access Credentials. The API Key is supplied via the x-api-key header.
+  sources:
+  - openapi/bluecart-openapi.yml
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: BlueCart API Key generated under Settings, API Access Credentials.
+  sources:
+  - openapi/bluecart-openapi.yml

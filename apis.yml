@@ -55,6 +55,8 @@ apis:
       - FN: BlueCart
         url: https://www.bluecart.com/contact
 common:
+  - type: AgenticAccess
+    url: agentic-access/bluecart-agentic-access.yml
   - type: DomainSecurity
     url: security/bluecart-domain-security.yml
   - type: Authentication

@@ -1,0 +1,364 @@
+openapi: 3.0.3
+info:
+  title: BlueCart Catalogs API
+  version: '1.0'
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  contact:
+    name: BlueCart
+    url: https://www.bluecart.com/contact
+  x-generated-from: documentation
+  x-last-validated: '2026-06-02'
+servers:
+- url: https://{invokeUrl}
+  description: BlueCart API AWS API Gateway invoke URL. The concrete host is provided in the BlueCart-supplied Postman collection (variable) and via your BlueCart account; it is not published in the public docs.
+  variables:
+    invokeUrl:
+      default: api.bluecart.com
+      description: AWS API Gateway invoke URL for the BlueCart API.
+security:
+- awsSigV4: []
+  apiKey: []
+tags:
+- name: Catalogs
+  description: Manage client-specific catalogs of products and pricing.
+paths:
+  /api/catalogs/:
+    get:
+      operationId: retrieveAllCatalogs
+      summary: Retrieve All Catalogs
+      description: Retrieves a page of catalogs. Use the returned nextToken to page through results.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/NextToken'
+      responses:
+        '200':
+          description: A page of catalogs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogList'
+              examples:
+                RetrieveAllCatalogs200Example:
+                  summary: Default retrieveAllCatalogs 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogs:
+                    - catalogId: 700
+                      catalogName: Premium Wines
+                      enabled: true
+                      products:
+                      - {}
+                      clients:
+                      - {}
+                    nextToken: eyJsYXN0SWQiOjcwMH0=
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createCatalog
+      summary: Create A Catalog
+      description: Creates a new catalog with products and assigned customers.
+      tags:
+      - Catalogs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogCreate'
+            examples:
+              CreateCatalogRequestExample:
+                summary: Default createCatalog request
+                x-microcks-default: true
+                value:
+                  catalogName: Premium Wines
+                  products:
+                  - {}
+                  customers:
+                  - {}
+      responses:
+        '200':
+          description: The created catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+              examples:
+                CreateCatalog200Example:
+                  summary: Default createCatalog 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogId: 700
+                    catalogName: Premium Wines
+                    enabled: true
+                    products:
+                    - {}
+                    clients:
+                    - {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/catalogs/{id}:
+    get:
+      operationId: retrieveCatalog
+      summary: Retrieve A Catalog
+      description: Retrieves a single catalog by its identifier.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/CatalogId'
+      responses:
+        '200':
+          description: The requested catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+              examples:
+                RetrieveCatalog200Example:
+                  summary: Default retrieveCatalog 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogId: 700
+                    catalogName: Premium Wines
+                    enabled: true
+                    products:
+                    - {}
+                    clients:
+                    - {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateCatalog
+      summary: Update A Catalog
+      description: Updates an existing catalog identified by its identifier.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/CatalogId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogUpdate'
+            examples:
+              UpdateCatalogRequestExample:
+                summary: Default updateCatalog request
+                x-microcks-default: true
+                value:
+                  catalogName: Premium Wines
+                  enabled: true
+                  products:
+                  - {}
+                  customers:
+                  - {}
+      responses:
+        '200':
+          description: The updated catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+              examples:
+                UpdateCatalog200Example:
+                  summary: Default updateCatalog 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogId: 700
+                    catalogName: Premium Wines
+                    enabled: true
+                    products:
+                    - {}
+                    clients:
+                    - {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteCatalog
+      summary: Delete A Catalog
+      description: Deletes a catalog identified by its identifier.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/CatalogId'
+      responses:
+        '200':
+          description: True when the catalog was deleted.
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+              examples:
+                DeleteCatalog200Example:
+                  summary: Default deleteCatalog 200 response
+                  x-microcks-default: true
+                  value: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    Catalog:
+      title: Catalog
+      type: object
+      description: A catalog of products and pricing assigned to clients.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        catalogName:
+          type: string
+          example: Premium Wines
+        enabled:
+          type: boolean
+          example: true
+        products:
+          type: array
+          description: Products in the catalog with pricing and discounts.
+          items:
+            type: object
+            additionalProperties: true
+        clients:
+          type: array
+          description: Clients the catalog is assigned to.
+          items:
+            type: object
+            additionalProperties: true
+    CatalogList:
+      title: CatalogList
+      type: object
+      description: A paginated list of catalogs.
+      properties:
+        catalogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjcwMH0=
+    CatalogCreate:
+      title: CatalogCreate
+      type: object
+      description: Payload for creating a catalog.
+      required:
+      - catalogName
+      properties:
+        catalogName:
+          type: string
+          example: Premium Wines
+        products:
+          type: array
+          description: Products to include, with ids and discount options.
+          items:
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          description: Customers to assign the catalog to, by id.
+          items:
+            type: object
+            additionalProperties: true
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+    CatalogUpdate:
+      title: CatalogUpdate
+      type: object
+      description: Payload for updating a catalog.
+      properties:
+        catalogName:
+          type: string
+          example: Premium Wines
+        enabled:
+          type: boolean
+          example: true
+        products:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+  parameters:
+    CatalogId:
+      name: id
+      in: path
+      description: Catalog identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    awsSigV4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 authorization against the AWS execute-api service in us-east-1. Requires an Access Key ID, Secret Access Key, and API Key generated in the BlueCart app under Settings, API Access Credentials. The API Key is supplied via the x-api-key header.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: BlueCart API Key generated under Settings, API Access Credentials.

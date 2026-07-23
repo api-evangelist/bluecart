@@ -1,0 +1,451 @@
+openapi: 3.0.3
+info:
+  title: BlueCart Catalogs Products API
+  version: '1.0'
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  contact:
+    name: BlueCart
+    url: https://www.bluecart.com/contact
+  x-generated-from: documentation
+  x-last-validated: '2026-06-02'
+servers:
+- url: https://{invokeUrl}
+  description: BlueCart API AWS API Gateway invoke URL. The concrete host is provided in the BlueCart-supplied Postman collection (variable) and via your BlueCart account; it is not published in the public docs.
+  variables:
+    invokeUrl:
+      default: api.bluecart.com
+      description: AWS API Gateway invoke URL for the BlueCart API.
+security:
+- awsSigV4: []
+  apiKey: []
+tags:
+- name: Products
+  description: Manage the product catalog including pricing and inventory.
+paths:
+  /products/:
+    get:
+      operationId: retrieveAllProducts
+      summary: Retrieve All Products
+      description: Retrieves a page of products (25 at a time) filtered by optional search parameters. Use the returned nextToken to page through results.
+      tags:
+      - Products
+      parameters:
+      - name: sku
+        in: query
+        description: Filter products by SKU.
+        required: false
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Filter products by name.
+        required: false
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Filter products by description.
+        required: false
+        schema:
+          type: string
+      - $ref: '#/components/parameters/NextToken'
+      responses:
+        '200':
+          description: A page of products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+              examples:
+                RetrieveAllProducts200Example:
+                  summary: Default retrieveAllProducts 200 response
+                  x-microcks-default: true
+                  value:
+                    products:
+                    - productId: 90210
+                      productName: Cabernet Sauvignon 750ml
+                      sku: WINE-CAB-750
+                      description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                      uom: Bottle
+                      price: 18.5
+                      pack: 12
+                      tags:
+                      - Wine
+                      - Red
+                      inventory: {}
+                      discounts: {}
+                      creationDateTime: '2026-06-02T14:30:00Z'
+                      lastUpdateDateTime: '2026-06-02T15:00:00Z'
+                    nextToken: eyJsYXN0SWQiOjkwMjEwfQ==
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/products/:
+    post:
+      operationId: createProduct
+      summary: Create A Product
+      description: Creates a new product in the catalog.
+      tags:
+      - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+            examples:
+              CreateProductRequestExample:
+                summary: Default createProduct request
+                x-microcks-default: true
+                value:
+                  productName: Cabernet Sauvignon 750ml
+                  sku: WINE-CAB-750
+                  description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                  uom: Bottle
+                  price: 18.5
+                  pack: 12
+                  tags:
+                  - Wine
+                  - Red
+                  inventory: {}
+                  discounts: {}
+      responses:
+        '200':
+          description: The created product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                CreateProduct200Example:
+                  summary: Default createProduct 200 response
+                  x-microcks-default: true
+                  value:
+                    productId: 90210
+                    productName: Cabernet Sauvignon 750ml
+                    sku: WINE-CAB-750
+                    description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                    uom: Bottle
+                    price: 18.5
+                    pack: 12
+                    tags:
+                    - Wine
+                    - Red
+                    inventory: {}
+                    discounts: {}
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/products/{id}:
+    get:
+      operationId: retrieveProduct
+      summary: Retrieve A Product
+      description: Retrieves a single product by its identifier.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: The requested product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                RetrieveProduct200Example:
+                  summary: Default retrieveProduct 200 response
+                  x-microcks-default: true
+                  value:
+                    productId: 90210
+                    productName: Cabernet Sauvignon 750ml
+                    sku: WINE-CAB-750
+                    description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                    uom: Bottle
+                    price: 18.5
+                    pack: 12
+                    tags:
+                    - Wine
+                    - Red
+                    inventory: {}
+                    discounts: {}
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateProduct
+      summary: Update A Product
+      description: Updates an existing product identified by its identifier.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+            examples:
+              UpdateProductRequestExample:
+                summary: Default updateProduct request
+                x-microcks-default: true
+                value:
+                  productName: Cabernet Sauvignon 750ml
+                  sku: WINE-CAB-750
+                  description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                  uom: Bottle
+                  price: 18.5
+                  pack: 12
+                  tags:
+                  - Wine
+                  - Red
+                  inventory: {}
+                  discounts: {}
+      responses:
+        '200':
+          description: The updated product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                UpdateProduct200Example:
+                  summary: Default updateProduct 200 response
+                  x-microcks-default: true
+                  value:
+                    productId: 90210
+                    productName: Cabernet Sauvignon 750ml
+                    sku: WINE-CAB-750
+                    description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                    uom: Bottle
+                    price: 18.5
+                    pack: 12
+                    tags:
+                    - Wine
+                    - Red
+                    inventory: {}
+                    discounts: {}
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteProduct
+      summary: Delete A Product
+      description: Deletes a product identified by its identifier.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: True when the product was deleted.
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+              examples:
+                DeleteProduct200Example:
+                  summary: Default deleteProduct 200 response
+                  x-microcks-default: true
+                  value: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ProductCreate:
+      title: ProductCreate
+      type: object
+      description: Payload for creating or updating a product.
+      required:
+      - productName
+      - price
+      properties:
+        productName:
+          type: string
+          example: Cabernet Sauvignon 750ml
+        sku:
+          type: string
+          example: WINE-CAB-750
+        description:
+          type: string
+          example: Estate-bottled Cabernet Sauvignon, vintage 2022.
+        uom:
+          type: string
+          example: Bottle
+        price:
+          type: number
+          format: float
+          example: 18.5
+        pack:
+          type: integer
+          example: 12
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - Wine
+          - Red
+        inventory:
+          type: object
+          additionalProperties: true
+        discounts:
+          type: object
+          additionalProperties: true
+    ProductList:
+      title: ProductList
+      type: object
+      description: A paginated list of products.
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjkwMjEwfQ==
+    Product:
+      title: Product
+      type: object
+      description: A product available for wholesale ordering.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: Unique product identifier.
+          example: 90210
+        productName:
+          type: string
+          description: Product name.
+          example: Cabernet Sauvignon 750ml
+        sku:
+          type: string
+          description: Stock keeping unit.
+          example: WINE-CAB-750
+        description:
+          type: string
+          description: Product description.
+          example: Estate-bottled Cabernet Sauvignon, vintage 2022.
+        uom:
+          type: string
+          description: Unit of measure.
+          example: Bottle
+        price:
+          type: number
+          format: float
+          description: Unit price.
+          example: 18.5
+        pack:
+          type: integer
+          description: Number of units per pack.
+          example: 12
+        tags:
+          type: array
+          description: Tags associated with the product.
+          items:
+            type: string
+          example:
+          - Wine
+          - Red
+        inventory:
+          type: object
+          description: Inventory management details.
+          additionalProperties: true
+        discounts:
+          type: object
+          description: Discount configuration for the product.
+          additionalProperties: true
+        creationDateTime:
+          type: string
+          format: date-time
+          example: '2026-06-02T14:30:00Z'
+        lastUpdateDateTime:
+          type: string
+          format: date-time
+          example: '2026-06-02T15:00:00Z'
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+  parameters:
+    ProductId:
+      name: id
+      in: path
+      description: Product identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    awsSigV4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 authorization against the AWS execute-api service in us-east-1. Requires an Access Key ID, Secret Access Key, and API Key generated in the BlueCart app under Settings, API Access Credentials. The API Key is supplied via the x-api-key header.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: BlueCart API Key generated under Settings, API Access Credentials.

@@ -1,0 +1,373 @@
+openapi: 3.0.3
+info:
+  title: BlueCart Catalogs Clients API
+  version: '1.0'
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  contact:
+    name: BlueCart
+    url: https://www.bluecart.com/contact
+  x-generated-from: documentation
+  x-last-validated: '2026-06-02'
+servers:
+- url: https://{invokeUrl}
+  description: BlueCart API AWS API Gateway invoke URL. The concrete host is provided in the BlueCart-supplied Postman collection (variable) and via your BlueCart account; it is not published in the public docs.
+  variables:
+    invokeUrl:
+      default: api.bluecart.com
+      description: AWS API Gateway invoke URL for the BlueCart API.
+security:
+- awsSigV4: []
+  apiKey: []
+tags:
+- name: Clients
+  description: Manage buyer/client associations and their account details.
+paths:
+  /api/clients/:
+    post:
+      operationId: createClient
+      summary: Create A Client Association
+      description: Creates a new client association linking a buyer to the distributor, including catalog assignment, ordering, and account details.
+      tags:
+      - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCreate'
+            examples:
+              CreateClientRequestExample:
+                summary: Default createClient request
+                x-microcks-default: true
+                value:
+                  clientEmail: buyer@restaurant.example
+                  clientId: 5012
+                  name: Downtown Bistro
+                  catalogId: 700
+                  orderFrequency: Weekly
+                  accountNumber: ACCT-5012
+                  netTerms: Net 30
+                  addresses: {}
+                  salesReps:
+                  - 3001
+      responses:
+        '200':
+          description: The created client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                CreateClient200Example:
+                  summary: Default createClient 200 response
+                  x-microcks-default: true
+                  value:
+                    clientId: 5012
+                    clientEmail: buyer@restaurant.example
+                    name: Downtown Bistro
+                    firstName: Jordan
+                    lastName: Rivera
+                    nickname: DTB
+                    catalogId: 700
+                    orderFrequency: Weekly
+                    accountNumber: ACCT-5012
+                    netTerms: Net 30
+                    addresses: {}
+                    salesReps:
+                    - 3001
+                    status: Active
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/clients/{id}:
+    get:
+      operationId: retrieveClient
+      summary: Retrieve A Client
+      description: Retrieves a single client by its identifier.
+      tags:
+      - Clients
+      parameters:
+      - $ref: '#/components/parameters/ClientId'
+      responses:
+        '200':
+          description: The requested client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                RetrieveClient200Example:
+                  summary: Default retrieveClient 200 response
+                  x-microcks-default: true
+                  value:
+                    clientId: 5012
+                    clientEmail: buyer@restaurant.example
+                    name: Downtown Bistro
+                    firstName: Jordan
+                    lastName: Rivera
+                    nickname: DTB
+                    catalogId: 700
+                    orderFrequency: Weekly
+                    accountNumber: ACCT-5012
+                    netTerms: Net 30
+                    addresses: {}
+                    salesReps:
+                    - 3001
+                    status: Active
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateClient
+      summary: Update A Client
+      description: Updates an existing client identified by its identifier.
+      tags:
+      - Clients
+      parameters:
+      - $ref: '#/components/parameters/ClientId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientUpdate'
+            examples:
+              UpdateClientRequestExample:
+                summary: Default updateClient request
+                x-microcks-default: true
+                value:
+                  firstName: Jordan
+                  lastName: Rivera
+                  catalogId: 700
+                  orderFrequency: Weekly
+                  accountNumber: ACCT-5012
+                  nickname: DTB
+                  addresses: {}
+                  salesReps:
+                  - 0
+                  status: Active
+      responses:
+        '200':
+          description: The updated client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                UpdateClient200Example:
+                  summary: Default updateClient 200 response
+                  x-microcks-default: true
+                  value:
+                    clientId: 5012
+                    clientEmail: buyer@restaurant.example
+                    name: Downtown Bistro
+                    firstName: Jordan
+                    lastName: Rivera
+                    nickname: DTB
+                    catalogId: 700
+                    orderFrequency: Weekly
+                    accountNumber: ACCT-5012
+                    netTerms: Net 30
+                    addresses: {}
+                    salesReps:
+                    - 3001
+                    status: Active
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  schemas:
+    ClientCreate:
+      title: ClientCreate
+      type: object
+      description: Payload for creating a client association.
+      required:
+      - clientEmail
+      - name
+      properties:
+        clientEmail:
+          type: string
+          format: email
+          example: buyer@restaurant.example
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        name:
+          type: string
+          example: Downtown Bistro
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        netTerms:
+          type: string
+          example: Net 30
+        addresses:
+          type: object
+          additionalProperties: true
+        salesReps:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example:
+          - 3001
+    Client:
+      title: Client
+      type: object
+      description: A buyer/client associated with the distributor.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        clientEmail:
+          type: string
+          format: email
+          example: buyer@restaurant.example
+        name:
+          type: string
+          example: Downtown Bistro
+        firstName:
+          type: string
+          example: Jordan
+        lastName:
+          type: string
+          example: Rivera
+        nickname:
+          type: string
+          example: DTB
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        netTerms:
+          type: string
+          example: Net 30
+        addresses:
+          type: object
+          description: Billing and shipping addresses.
+          additionalProperties: true
+        salesReps:
+          type: array
+          description: Sales rep identifiers assigned to the client.
+          items:
+            type: integer
+            format: int64
+          example:
+          - 3001
+        status:
+          type: string
+          example: Active
+    ClientUpdate:
+      title: ClientUpdate
+      type: object
+      description: Payload for updating a client.
+      properties:
+        firstName:
+          type: string
+          example: Jordan
+        lastName:
+          type: string
+          example: Rivera
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        nickname:
+          type: string
+          example: DTB
+        addresses:
+          type: object
+          additionalProperties: true
+        salesReps:
+          type: array
+          items:
+            type: integer
+            format: int64
+        status:
+          type: string
+          example: Active
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    ClientId:
+      name: id
+      in: path
+      description: Client identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  securitySchemes:
+    awsSigV4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: AWS Signature Version 4 authorization against the AWS execute-api service in us-east-1. Requires an Access Key ID, Secret Access Key, and API Key generated in the BlueCart app under Settings, API Access Credentials. The API Key is supplied via the x-api-key header.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: BlueCart API Key generated under Settings, API Access Credentials.

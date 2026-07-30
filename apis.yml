@@ -8,7 +8,20 @@ description: >-
   responses and integrating BlueCart data with external accounting, eCommerce, and logistics systems used across
   foodservice operations.
 type: Company
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/bluecart.png
 tags:
   - Restaurant
   - Procurement
@@ -22,38 +35,91 @@ created: '2026-06-02'
 modified: '2026-06-02'
 specificationVersion: '0.19'
 apis:
-  - aid: bluecart:rest-api
-    name: BlueCart API
-    description: >-
-      The BlueCart API is defined using REST with predictable, resource-oriented URLs and returns JSON-encoded responses
-      with standard HTTP status codes. It is authenticated using AWS Signature Version 4 against the AWS execute-api
-      service in the us-east-1 region, requiring an Access Key ID, Secret Access Key, and API Key generated from the
-      BlueCart app under Settings, API Access Credentials. The API operates on one object per request and does not
-      support bulk updates, uses next-token pagination returning 25 items per page on collection endpoints, and ships
-      with a Postman collection to help developers make their first request. It exposes resources for orders, products,
-      catalogs, clients, and users.
-    humanURL: https://docs.bluecart.com/
-    tags:
-      - Orders
-      - Products
-      - Catalogs
-      - Clients
-      - Users
-      - Procurement
-    properties:
-      - type: Documentation
-        url: https://docs.bluecart.com/
-      - type: Authentication
-        url: https://docs.bluecart.com/authentication
-      - type: GettingStarted
-        url: https://docs.bluecart.com/running-your-first-request
-      - type: Pagination
-        url: https://docs.bluecart.com/pagination
-      - type: OpenAPI
-        url: openapi/bluecart-openapi.yml
-    contact:
-      - FN: BlueCart
-        url: https://www.bluecart.com/contact
+- aid: bluecart:bluecart-catalogs-api
+  name: BlueCart Catalogs API
+  description: Manage client-specific catalogs of products and pricing.
+  humanURL: https://docs.bluecart.com/
+  tags:
+  - Catalogs
+  properties:
+  - type: OpenAPI
+    url: openapi/bluecart-catalogs-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bluecart.com/
+  - type: Authentication
+    url: https://docs.bluecart.com/authentication
+  - type: GettingStarted
+    url: https://docs.bluecart.com/running-your-first-request
+  - type: Pagination
+    url: https://docs.bluecart.com/pagination
+- aid: bluecart:bluecart-clients-api
+  name: BlueCart Clients API
+  description: Manage buyer/client associations and their account details.
+  humanURL: https://docs.bluecart.com/
+  tags:
+  - Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/bluecart-clients-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bluecart.com/
+  - type: Authentication
+    url: https://docs.bluecart.com/authentication
+  - type: GettingStarted
+    url: https://docs.bluecart.com/running-your-first-request
+  - type: Pagination
+    url: https://docs.bluecart.com/pagination
+- aid: bluecart:bluecart-orders-api
+  name: BlueCart Orders API
+  description: Search, retrieve, place, and modify wholesale orders.
+  humanURL: https://docs.bluecart.com/
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/bluecart-orders-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bluecart.com/
+  - type: Authentication
+    url: https://docs.bluecart.com/authentication
+  - type: GettingStarted
+    url: https://docs.bluecart.com/running-your-first-request
+  - type: Pagination
+    url: https://docs.bluecart.com/pagination
+- aid: bluecart:bluecart-products-api
+  name: BlueCart Products API
+  description: Manage the product catalog including pricing and inventory.
+  humanURL: https://docs.bluecart.com/
+  tags:
+  - Products
+  properties:
+  - type: OpenAPI
+    url: openapi/bluecart-products-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bluecart.com/
+  - type: Authentication
+    url: https://docs.bluecart.com/authentication
+  - type: GettingStarted
+    url: https://docs.bluecart.com/running-your-first-request
+  - type: Pagination
+    url: https://docs.bluecart.com/pagination
+- aid: bluecart:bluecart-users-api
+  name: BlueCart Users API
+  description: Manage platform users and their roles and notifications.
+  humanURL: https://docs.bluecart.com/
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/bluecart-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.bluecart.com/
+  - type: Authentication
+    url: https://docs.bluecart.com/authentication
+  - type: GettingStarted
+    url: https://docs.bluecart.com/running-your-first-request
+  - type: Pagination
+    url: https://docs.bluecart.com/pagination
 common:
   - type: AgenticAccess
     url: agentic-access/bluecart-agentic-access.yml

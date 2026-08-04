@@ -1,0 +1,2007 @@
+openapi: 3.0.3
+info:
+  title: BlueCart API
+  version: '1.0'
+  description: >-
+    The BlueCart API is a REST API for the BlueCart wholesale ordering and
+    procurement platform serving the hospitality and food and beverage
+    industries. It exposes resource-oriented endpoints for managing orders,
+    products, catalogs, clients, and users, returning JSON-encoded responses
+    with standard HTTP status codes. The API is authenticated using AWS
+    Signature Version 4 against the AWS execute-api service in the us-east-1
+    region, operates on a single object per request (no bulk updates), and uses
+    next-token pagination returning 25 items per page on collection endpoints.
+    This specification was generated from the public BlueCart API documentation
+    at https://docs.bluecart.com/.
+  contact:
+    name: BlueCart
+    url: https://www.bluecart.com/contact
+  x-generated-from: documentation
+  x-last-validated: '2026-06-02'
+servers:
+- url: https://{invokeUrl}
+  description: >-
+    BlueCart API AWS API Gateway invoke URL. The concrete host is provided in
+    the BlueCart-supplied Postman collection (variable) and via your BlueCart
+    account; it is not published in the public docs.
+  variables:
+    invokeUrl:
+      default: api.bluecart.com
+      description: AWS API Gateway invoke URL for the BlueCart API.
+tags:
+- name: Orders
+  description: Search, retrieve, place, and modify wholesale orders.
+- name: Products
+  description: Manage the product catalog including pricing and inventory.
+- name: Catalogs
+  description: Manage client-specific catalogs of products and pricing.
+- name: Clients
+  description: Manage buyer/client associations and their account details.
+- name: Users
+  description: Manage platform users and their roles and notifications.
+paths:
+  /orders/:
+    get:
+      operationId: searchOrders
+      summary: Search For Orders
+      description: >-
+        Retrieves a page of orders (25 at a time) filtered by the supplied
+        search parameters. Use the returned nextToken to page through results.
+      tags:
+      - Orders
+      parameters:
+      - name: client
+        in: query
+        description: Include client information in the response.
+        required: false
+        schema:
+          type: boolean
+      - name: vendor
+        in: query
+        description: Include vendor information in the response.
+        required: false
+        schema:
+          type: boolean
+      - name: status
+        in: query
+        description: Filter orders by status.
+        required: false
+        schema:
+          type: string
+          enum:
+          - New
+          - Processing
+          - In-Transit/Shipped
+          - Fulfilled
+          - Cancelled
+      - name: sortField
+        in: query
+        description: Field to sort results by.
+        required: false
+        schema:
+          type: string
+          enum:
+          - creationDate
+          - requestedDeliveryDate
+          - deliveryDate
+          - shippingDate
+      - name: creationStartDate
+        in: query
+        description: Filter by order creation start date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: creationEndDate
+        in: query
+        description: Filter by order creation end date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: requestedDeliveryStartDate
+        in: query
+        description: Filter by requested delivery start date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: requestedDeliveryEndDate
+        in: query
+        description: Filter by requested delivery end date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: deliveryStartDate
+        in: query
+        description: Filter by delivery start date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: deliveryEndDate
+        in: query
+        description: Filter by delivery end date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: shippingStartDate
+        in: query
+        description: Filter by shipping start date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - name: shippingEndDate
+        in: query
+        description: Filter by shipping end date (YYYY-MM-DD).
+        required: false
+        schema:
+          type: string
+          format: date
+      - $ref: '#/components/parameters/NextToken'
+      responses:
+        '200':
+          description: A page of matching orders.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderList'
+              examples:
+                SearchOrders200Example:
+                  summary: Default searchOrders 200 response
+                  x-microcks-default: true
+                  value:
+                    orders:
+                    - orderId: 100245
+                      clientId: 5012
+                      vendorId: 880
+                      status: New
+                      deliveryType: Delivery
+                      currency: USD
+                      deliveryCharge: 25
+                      requestedDeliveryDate: '2026-06-10'
+                      deliveryDate: '2026-06-10'
+                      shippingDate: '2026-06-09'
+                      creationDate: '2026-06-02T14:30:00Z'
+                      lastUpdateDate: '2026-06-02T15:00:00Z'
+                      products:
+                      - {}
+                      addresses: {}
+                      totals: {}
+                    nextToken: eyJsYXN0SWQiOjEwMDI0NX0=
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: placeOrder
+      summary: Place An Order
+      description: Creates a new wholesale order on behalf of a client.
+      tags:
+      - Orders
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderCreate'
+            examples:
+              PlaceOrderRequestExample:
+                summary: Default placeOrder request
+                x-microcks-default: true
+                value:
+                  clientId: 5012
+                  user:
+                    id: 3001
+                    type: STAFF
+                  deliveryCharge: 25
+                  deliveryType: Delivery
+                  requestedDeliveryDate: '2026-06-10'
+                  currency: USD
+                  addresses: {}
+                  products:
+                  - productId: 90210
+                    sku: WINE-CAB-750
+                    name: Cabernet Sauvignon 750ml
+                    quantity: 12
+                    price: 18.5
+                  presetCreationDate: '2026-06-02T14:30:00Z'
+      responses:
+        '200':
+          description: The created order, with any warnings.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderCreateResult'
+              examples:
+                PlaceOrder200Example:
+                  summary: Default placeOrder 200 response
+                  x-microcks-default: true
+                  value:
+                    order:
+                      orderId: 100245
+                      clientId: 5012
+                      vendorId: 880
+                      status: New
+                      deliveryType: Delivery
+                      currency: USD
+                      deliveryCharge: 25
+                      requestedDeliveryDate: '2026-06-10'
+                      deliveryDate: '2026-06-10'
+                      shippingDate: '2026-06-09'
+                      creationDate: '2026-06-02T14:30:00Z'
+                      lastUpdateDate: '2026-06-02T15:00:00Z'
+                      products:
+                      - productId: {}
+                        sku: {}
+                        name: {}
+                        quantity: {}
+                        price: {}
+                      addresses: {}
+                      totals: {}
+                    warnings: &id006
+                    - Requested delivery date is outside the standard window.
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /orders/{id}:
+    get:
+      operationId: retrieveOrder
+      summary: Retrieve An Order
+      description: Retrieves a single order by its identifier.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/OrderId'
+      - name: client
+        in: query
+        description: Include client information in the response.
+        required: false
+        schema:
+          type: boolean
+      - name: vendor
+        in: query
+        description: Include vendor information in the response.
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: The requested order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+              examples:
+                RetrieveOrder200Example:
+                  summary: Default retrieveOrder 200 response
+                  x-microcks-default: true
+                  value:
+                    orderId: 100245
+                    clientId: 5012
+                    vendorId: 880
+                    status: New
+                    deliveryType: Delivery
+                    currency: USD
+                    deliveryCharge: 25
+                    requestedDeliveryDate: '2026-06-10'
+                    deliveryDate: '2026-06-10'
+                    shippingDate: '2026-06-09'
+                    creationDate: '2026-06-02T14:30:00Z'
+                    lastUpdateDate: '2026-06-02T15:00:00Z'
+                    products:
+                    - productId: 90210
+                      sku: WINE-CAB-750
+                      name: Cabernet Sauvignon 750ml
+                      quantity: 12
+                      price: 18.5
+                    addresses: {}
+                    totals: {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: modifyOrder
+      summary: Modify An Order
+      description: Updates an existing order identified by its identifier.
+      tags:
+      - Orders
+      parameters:
+      - $ref: '#/components/parameters/OrderId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderUpdate'
+            examples:
+              ModifyOrderRequestExample:
+                summary: Default modifyOrder request
+                x-microcks-default: true
+                value:
+                  userId: 3001
+                  status: Processing
+                  deliveryCharge: 25
+                  requestedDeliveryDate: '2026-06-10'
+                  deliveryDate: '2026-06-10'
+                  shippingDate: '2026-06-09'
+                  paymentStatus: Paid
+                  trackingInfo: 1Z999AA10123456784
+                  addresses: {}
+                  products:
+                  - productId: 90210
+                    sku: WINE-CAB-750
+                    name: Cabernet Sauvignon 750ml
+                    quantity: 12
+                    price: 18.5
+      responses:
+        '200':
+          description: The updated order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+              examples:
+                ModifyOrder200Example:
+                  summary: Default modifyOrder 200 response
+                  x-microcks-default: true
+                  value:
+                    orderId: 100245
+                    clientId: 5012
+                    vendorId: 880
+                    status: New
+                    deliveryType: Delivery
+                    currency: USD
+                    deliveryCharge: 25
+                    requestedDeliveryDate: '2026-06-10'
+                    deliveryDate: '2026-06-10'
+                    shippingDate: '2026-06-09'
+                    creationDate: '2026-06-02T14:30:00Z'
+                    lastUpdateDate: '2026-06-02T15:00:00Z'
+                    products:
+                    - productId: 90210
+                      sku: WINE-CAB-750
+                      name: Cabernet Sauvignon 750ml
+                      quantity: 12
+                      price: 18.5
+                    addresses: {}
+                    totals: {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /products/:
+    get:
+      operationId: retrieveAllProducts
+      summary: Retrieve All Products
+      description: >-
+        Retrieves a page of products (25 at a time) filtered by optional search
+        parameters. Use the returned nextToken to page through results.
+      tags:
+      - Products
+      parameters:
+      - name: sku
+        in: query
+        description: Filter products by SKU.
+        required: false
+        schema:
+          type: string
+      - name: name
+        in: query
+        description: Filter products by name.
+        required: false
+        schema:
+          type: string
+      - name: description
+        in: query
+        description: Filter products by description.
+        required: false
+        schema:
+          type: string
+      - $ref: '#/components/parameters/NextToken'
+      responses:
+        '200':
+          description: A page of products.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+              examples:
+                RetrieveAllProducts200Example:
+                  summary: Default retrieveAllProducts 200 response
+                  x-microcks-default: true
+                  value:
+                    products:
+                    - productId: 90210
+                      productName: Cabernet Sauvignon 750ml
+                      sku: WINE-CAB-750
+                      description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                      uom: Bottle
+                      price: 18.5
+                      pack: 12
+                      tags: &id001
+                      - Wine
+                      - Red
+                      inventory: {}
+                      discounts: {}
+                      creationDateTime: '2026-06-02T14:30:00Z'
+                      lastUpdateDateTime: '2026-06-02T15:00:00Z'
+                    nextToken: eyJsYXN0SWQiOjkwMjEwfQ==
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/products/:
+    post:
+      operationId: createProduct
+      summary: Create A Product
+      description: Creates a new product in the catalog.
+      tags:
+      - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+            examples:
+              CreateProductRequestExample:
+                summary: Default createProduct request
+                x-microcks-default: true
+                value:
+                  productName: Cabernet Sauvignon 750ml
+                  sku: WINE-CAB-750
+                  description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                  uom: Bottle
+                  price: 18.5
+                  pack: 12
+                  tags: &id002
+                  - Wine
+                  - Red
+                  inventory: {}
+                  discounts: {}
+      responses:
+        '200':
+          description: The created product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                CreateProduct200Example:
+                  summary: Default createProduct 200 response
+                  x-microcks-default: true
+                  value:
+                    productId: 90210
+                    productName: Cabernet Sauvignon 750ml
+                    sku: WINE-CAB-750
+                    description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                    uom: Bottle
+                    price: 18.5
+                    pack: 12
+                    tags: *id001
+                    inventory: {}
+                    discounts: {}
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/products/{id}:
+    get:
+      operationId: retrieveProduct
+      summary: Retrieve A Product
+      description: Retrieves a single product by its identifier.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: The requested product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                RetrieveProduct200Example:
+                  summary: Default retrieveProduct 200 response
+                  x-microcks-default: true
+                  value:
+                    productId: 90210
+                    productName: Cabernet Sauvignon 750ml
+                    sku: WINE-CAB-750
+                    description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                    uom: Bottle
+                    price: 18.5
+                    pack: 12
+                    tags: *id001
+                    inventory: {}
+                    discounts: {}
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateProduct
+      summary: Update A Product
+      description: Updates an existing product identified by its identifier.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+            examples:
+              UpdateProductRequestExample:
+                summary: Default updateProduct request
+                x-microcks-default: true
+                value:
+                  productName: Cabernet Sauvignon 750ml
+                  sku: WINE-CAB-750
+                  description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                  uom: Bottle
+                  price: 18.5
+                  pack: 12
+                  tags: *id002
+                  inventory: {}
+                  discounts: {}
+      responses:
+        '200':
+          description: The updated product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+              examples:
+                UpdateProduct200Example:
+                  summary: Default updateProduct 200 response
+                  x-microcks-default: true
+                  value:
+                    productId: 90210
+                    productName: Cabernet Sauvignon 750ml
+                    sku: WINE-CAB-750
+                    description: Estate-bottled Cabernet Sauvignon, vintage 2022.
+                    uom: Bottle
+                    price: 18.5
+                    pack: 12
+                    tags: *id001
+                    inventory: {}
+                    discounts: {}
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteProduct
+      summary: Delete A Product
+      description: Deletes a product identified by its identifier.
+      tags:
+      - Products
+      parameters:
+      - $ref: '#/components/parameters/ProductId'
+      responses:
+        '200':
+          description: True when the product was deleted.
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+              examples:
+                DeleteProduct200Example:
+                  summary: Default deleteProduct 200 response
+                  x-microcks-default: true
+                  value: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/catalogs/:
+    get:
+      operationId: retrieveAllCatalogs
+      summary: Retrieve All Catalogs
+      description: >-
+        Retrieves a page of catalogs. Use the returned nextToken to page through
+        results.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/NextToken'
+      responses:
+        '200':
+          description: A page of catalogs.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CatalogList'
+              examples:
+                RetrieveAllCatalogs200Example:
+                  summary: Default retrieveAllCatalogs 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogs:
+                    - catalogId: 700
+                      catalogName: Premium Wines
+                      enabled: true
+                      products:
+                      - {}
+                      clients:
+                      - {}
+                    nextToken: eyJsYXN0SWQiOjcwMH0=
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createCatalog
+      summary: Create A Catalog
+      description: Creates a new catalog with products and assigned customers.
+      tags:
+      - Catalogs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogCreate'
+            examples:
+              CreateCatalogRequestExample:
+                summary: Default createCatalog request
+                x-microcks-default: true
+                value:
+                  catalogName: Premium Wines
+                  products:
+                  - {}
+                  customers:
+                  - {}
+      responses:
+        '200':
+          description: The created catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+              examples:
+                CreateCatalog200Example:
+                  summary: Default createCatalog 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogId: 700
+                    catalogName: Premium Wines
+                    enabled: true
+                    products:
+                    - {}
+                    clients:
+                    - {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/catalogs/{id}:
+    get:
+      operationId: retrieveCatalog
+      summary: Retrieve A Catalog
+      description: Retrieves a single catalog by its identifier.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/CatalogId'
+      responses:
+        '200':
+          description: The requested catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+              examples:
+                RetrieveCatalog200Example:
+                  summary: Default retrieveCatalog 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogId: 700
+                    catalogName: Premium Wines
+                    enabled: true
+                    products:
+                    - {}
+                    clients:
+                    - {}
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateCatalog
+      summary: Update A Catalog
+      description: Updates an existing catalog identified by its identifier.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/CatalogId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CatalogUpdate'
+            examples:
+              UpdateCatalogRequestExample:
+                summary: Default updateCatalog request
+                x-microcks-default: true
+                value:
+                  catalogName: Premium Wines
+                  enabled: true
+                  products:
+                  - {}
+                  customers:
+                  - {}
+      responses:
+        '200':
+          description: The updated catalog.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Catalog'
+              examples:
+                UpdateCatalog200Example:
+                  summary: Default updateCatalog 200 response
+                  x-microcks-default: true
+                  value:
+                    catalogId: 700
+                    catalogName: Premium Wines
+                    enabled: true
+                    products:
+                    - {}
+                    clients:
+                    - {}
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: deleteCatalog
+      summary: Delete A Catalog
+      description: Deletes a catalog identified by its identifier.
+      tags:
+      - Catalogs
+      parameters:
+      - $ref: '#/components/parameters/CatalogId'
+      responses:
+        '200':
+          description: True when the catalog was deleted.
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+              examples:
+                DeleteCatalog200Example:
+                  summary: Default deleteCatalog 200 response
+                  x-microcks-default: true
+                  value: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/clients/:
+    post:
+      operationId: createClient
+      summary: Create A Client Association
+      description: >-
+        Creates a new client association linking a buyer to the distributor,
+        including catalog assignment, ordering, and account details.
+      tags:
+      - Clients
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCreate'
+            examples:
+              CreateClientRequestExample:
+                summary: Default createClient request
+                x-microcks-default: true
+                value:
+                  clientEmail: buyer@restaurant.example
+                  clientId: 5012
+                  name: Downtown Bistro
+                  catalogId: 700
+                  orderFrequency: Weekly
+                  accountNumber: ACCT-5012
+                  netTerms: Net 30
+                  addresses: {}
+                  salesReps: &id007
+                  - 3001
+      responses:
+        '200':
+          description: The created client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                CreateClient200Example:
+                  summary: Default createClient 200 response
+                  x-microcks-default: true
+                  value:
+                    clientId: 5012
+                    clientEmail: buyer@restaurant.example
+                    name: Downtown Bistro
+                    firstName: Jordan
+                    lastName: Rivera
+                    nickname: DTB
+                    catalogId: 700
+                    orderFrequency: Weekly
+                    accountNumber: ACCT-5012
+                    netTerms: Net 30
+                    addresses: {}
+                    salesReps: &id003
+                    - 3001
+                    status: Active
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /api/clients/{id}:
+    get:
+      operationId: retrieveClient
+      summary: Retrieve A Client
+      description: Retrieves a single client by its identifier.
+      tags:
+      - Clients
+      parameters:
+      - $ref: '#/components/parameters/ClientId'
+      responses:
+        '200':
+          description: The requested client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                RetrieveClient200Example:
+                  summary: Default retrieveClient 200 response
+                  x-microcks-default: true
+                  value:
+                    clientId: 5012
+                    clientEmail: buyer@restaurant.example
+                    name: Downtown Bistro
+                    firstName: Jordan
+                    lastName: Rivera
+                    nickname: DTB
+                    catalogId: 700
+                    orderFrequency: Weekly
+                    accountNumber: ACCT-5012
+                    netTerms: Net 30
+                    addresses: {}
+                    salesReps: *id003
+                    status: Active
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateClient
+      summary: Update A Client
+      description: Updates an existing client identified by its identifier.
+      tags:
+      - Clients
+      parameters:
+      - $ref: '#/components/parameters/ClientId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientUpdate'
+            examples:
+              UpdateClientRequestExample:
+                summary: Default updateClient request
+                x-microcks-default: true
+                value:
+                  firstName: Jordan
+                  lastName: Rivera
+                  catalogId: 700
+                  orderFrequency: Weekly
+                  accountNumber: ACCT-5012
+                  nickname: DTB
+                  addresses: {}
+                  salesReps:
+                  - 0
+                  status: Active
+      responses:
+        '200':
+          description: The updated client.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+              examples:
+                UpdateClient200Example:
+                  summary: Default updateClient 200 response
+                  x-microcks-default: true
+                  value:
+                    clientId: 5012
+                    clientEmail: buyer@restaurant.example
+                    name: Downtown Bistro
+                    firstName: Jordan
+                    lastName: Rivera
+                    nickname: DTB
+                    catalogId: 700
+                    orderFrequency: Weekly
+                    accountNumber: ACCT-5012
+                    netTerms: Net 30
+                    addresses: {}
+                    salesReps: *id003
+                    status: Active
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /users/:
+    get:
+      operationId: listUsers
+      summary: List Users
+      description: >-
+        Retrieves a page of users. Use the returned nextToken to page through
+        results.
+      tags:
+      - Users
+      parameters:
+      - $ref: '#/components/parameters/NextToken'
+      responses:
+        '200':
+          description: A page of users.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+              examples:
+                ListUsers200Example:
+                  summary: Default listUsers 200 response
+                  x-microcks-default: true
+                  value:
+                    users:
+                    - id: 3001
+                      firstName: Alex
+                      lastName: Morgan
+                      email: alex.morgan@distributor.example
+                      enabled: true
+                      notify: true
+                      role: Admin
+                      phone: '+15555550123'
+                      reportsTo: 3000
+                      notificationTypes: &id004
+                      - OrderPlaced
+                      - OrderShipped
+                      creationDateTime: '2026-06-02T14:30:00Z'
+                      lastUpdateDateTime: '2026-06-02T15:00:00Z'
+                    nextToken: eyJsYXN0SWQiOjMwMDF9
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    post:
+      operationId: createUser
+      summary: Create A User
+      description: Creates a new platform user.
+      tags:
+      - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+            examples:
+              CreateUserRequestExample:
+                summary: Default createUser request
+                x-microcks-default: true
+                value:
+                  firstName: Alex
+                  lastName: Morgan
+                  email: alex.morgan@distributor.example
+                  enabled: true
+                  notify: true
+                  role: Admin
+                  phone: '+15555550123'
+                  reportsTo: 3000
+                  notificationTypes: &id005
+                  - OrderPlaced
+                  - OrderShipped
+      responses:
+        '200':
+          description: The created user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                CreateUser200Example:
+                  summary: Default createUser 200 response
+                  x-microcks-default: true
+                  value:
+                    id: 3001
+                    firstName: Alex
+                    lastName: Morgan
+                    email: alex.morgan@distributor.example
+                    enabled: true
+                    notify: true
+                    role: Admin
+                    phone: '+15555550123'
+                    reportsTo: 3000
+                    notificationTypes: *id004
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+  /users/{id}:
+    get:
+      operationId: retrieveUser
+      summary: Retrieve A User
+      description: Retrieves a single user by its identifier.
+      tags:
+      - Users
+      parameters:
+      - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: The requested user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                RetrieveUser200Example:
+                  summary: Default retrieveUser 200 response
+                  x-microcks-default: true
+                  value:
+                    id: 3001
+                    firstName: Alex
+                    lastName: Morgan
+                    email: alex.morgan@distributor.example
+                    enabled: true
+                    notify: true
+                    role: Admin
+                    phone: '+15555550123'
+                    reportsTo: 3000
+                    notificationTypes: *id004
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    put:
+      operationId: updateUser
+      summary: Update A User
+      description: Updates an existing user identified by its identifier.
+      tags:
+      - Users
+      parameters:
+      - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+            examples:
+              UpdateUserRequestExample:
+                summary: Default updateUser request
+                x-microcks-default: true
+                value:
+                  firstName: Alex
+                  lastName: Morgan
+                  email: alex.morgan@distributor.example
+                  enabled: true
+                  notify: true
+                  role: Admin
+                  phone: '+15555550123'
+                  reportsTo: 3000
+                  notificationTypes: *id005
+      responses:
+        '200':
+          description: The updated user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                UpdateUser200Example:
+                  summary: Default updateUser 200 response
+                  x-microcks-default: true
+                  value:
+                    id: 3001
+                    firstName: Alex
+                    lastName: Morgan
+                    email: alex.morgan@distributor.example
+                    enabled: true
+                    notify: true
+                    role: Admin
+                    phone: '+15555550123'
+                    reportsTo: 3000
+                    notificationTypes: *id004
+                    creationDateTime: '2026-06-02T14:30:00Z'
+                    lastUpdateDateTime: '2026-06-02T15:00:00Z'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+    delete:
+      operationId: disableUser
+      summary: Disable A User
+      description: Disables a user identified by its identifier.
+      tags:
+      - Users
+      parameters:
+      - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: True when the user was disabled.
+          content:
+            application/json:
+              schema:
+                type: boolean
+                example: true
+              examples:
+                DisableUser200Example:
+                  summary: Default disableUser 200 response
+                  x-microcks-default: true
+                  value: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      x-microcks-operation:
+        delay: 0
+        dispatcher: FALLBACK
+components:
+  securitySchemes:
+    awsSigV4:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: >-
+        AWS Signature Version 4 authorization against the AWS execute-api
+        service in us-east-1. Requires an Access Key ID, Secret Access Key, and
+        API Key generated in the BlueCart app under Settings, API Access
+        Credentials. The API Key is supplied via the x-api-key header.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: BlueCart API Key generated under Settings, API Access Credentials.
+  parameters:
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+    OrderId:
+      name: id
+      in: path
+      description: Order identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ProductId:
+      name: id
+      in: path
+      description: Product identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    CatalogId:
+      name: id
+      in: path
+      description: Catalog identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    ClientId:
+      name: id
+      in: path
+      description: Client identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    UserId:
+      name: id
+      in: path
+      description: User identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+  responses:
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+    OrderProduct:
+      title: OrderProduct
+      type: object
+      description: A line item within an order.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: Identifier of the product.
+          example: 90210
+        sku:
+          type: string
+          description: Stock keeping unit of the product.
+          example: WINE-CAB-750
+        name:
+          type: string
+          description: Product name.
+          example: Cabernet Sauvignon 750ml
+        quantity:
+          type: number
+          description: Quantity ordered.
+          example: 12
+        price:
+          type: number
+          format: float
+          description: Unit price for this line item.
+          example: 18.5
+    Order:
+      title: Order
+      type: object
+      description: A wholesale order between a client and a vendor.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        orderId:
+          type: integer
+          format: int64
+          description: Unique order identifier.
+          example: 100245
+        clientId:
+          type: integer
+          format: int64
+          description: Identifier of the client placing the order.
+          example: 5012
+        vendorId:
+          type: integer
+          format: int64
+          description: Identifier of the vendor fulfilling the order.
+          example: 880
+        status:
+          type: string
+          description: Current order status.
+          enum:
+          - New
+          - Processing
+          - In-Transit/Shipped
+          - Fulfilled
+          - Cancelled
+          example: New
+        deliveryType:
+          type: string
+          description: Delivery method for the order.
+          example: Delivery
+        currency:
+          type: string
+          description: ISO currency code for monetary amounts.
+          example: USD
+        deliveryCharge:
+          type: number
+          format: float
+          description: Delivery charge applied to the order.
+          example: 25
+        requestedDeliveryDate:
+          type: string
+          format: date
+          description: Date delivery was requested for.
+          example: '2026-06-10'
+        deliveryDate:
+          type: string
+          format: date
+          description: Actual delivery date.
+          example: '2026-06-10'
+        shippingDate:
+          type: string
+          format: date
+          description: Date the order shipped.
+          example: '2026-06-09'
+        creationDate:
+          type: string
+          format: date-time
+          description: Timestamp the order was created.
+          example: '2026-06-02T14:30:00Z'
+        lastUpdateDate:
+          type: string
+          format: date-time
+          description: Timestamp the order was last updated.
+          example: '2026-06-02T15:00:00Z'
+        products:
+          type: array
+          description: Line items in the order.
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+        addresses:
+          type: object
+          description: Billing and shipping addresses for the order.
+          additionalProperties: true
+        totals:
+          type: object
+          description: Computed monetary totals for the order.
+          additionalProperties: true
+    OrderCreate:
+      title: OrderCreate
+      type: object
+      description: Payload for placing a new order.
+      required:
+      - clientId
+      - products
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          description: Identifier of the client placing the order.
+          example: 5012
+        user:
+          type: object
+          description: The user placing the order.
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 3001
+            type:
+              type: string
+              example: STAFF
+        deliveryCharge:
+          type: number
+          format: float
+          description: Delivery charge to apply.
+          example: 25
+        deliveryType:
+          type: string
+          description: Delivery method.
+          example: Delivery
+        requestedDeliveryDate:
+          type: string
+          format: date
+          description: Requested delivery date.
+          example: '2026-06-10'
+        currency:
+          type: string
+          description: ISO currency code.
+          example: USD
+        addresses:
+          type: object
+          description: Billing and shipping addresses.
+          additionalProperties: true
+        products:
+          type: array
+          description: Line items to include in the order.
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+        presetCreationDate:
+          type: string
+          format: date-time
+          description: Optional preset creation timestamp for the order.
+          example: '2026-06-02T14:30:00Z'
+    OrderUpdate:
+      title: OrderUpdate
+      type: object
+      description: Payload for modifying an existing order.
+      properties:
+        userId:
+          type: integer
+          format: int64
+          description: Identifier of the user making the change.
+          example: 3001
+        status:
+          type: string
+          description: New order status.
+          enum:
+          - New
+          - Processing
+          - In-Transit/Shipped
+          - Fulfilled
+          - Cancelled
+          example: Processing
+        deliveryCharge:
+          type: number
+          format: float
+          description: Updated delivery charge.
+          example: 25
+        requestedDeliveryDate:
+          type: string
+          format: date
+          example: '2026-06-10'
+        deliveryDate:
+          type: string
+          format: date
+          example: '2026-06-10'
+        shippingDate:
+          type: string
+          format: date
+          example: '2026-06-09'
+        paymentStatus:
+          type: string
+          description: Payment status for the order.
+          example: Paid
+        trackingInfo:
+          type: string
+          description: Shipment tracking information.
+          example: 1Z999AA10123456784
+        addresses:
+          type: object
+          additionalProperties: true
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+    OrderCreateResult:
+      title: OrderCreateResult
+      type: object
+      description: Result of placing an order, including any warnings.
+      properties:
+        order:
+          $ref: '#/components/schemas/Order'
+        warnings:
+          type: array
+          description: Non-fatal warnings raised while creating the order.
+          items:
+            type: string
+          example: *id006
+    OrderList:
+      title: OrderList
+      type: object
+      description: A paginated list of orders.
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        nextToken:
+          type: string
+          description: Token to retrieve the next page; absent on the last page.
+          example: eyJsYXN0SWQiOjEwMDI0NX0=
+    Product:
+      title: Product
+      type: object
+      description: A product available for wholesale ordering.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        productId:
+          type: integer
+          format: int64
+          description: Unique product identifier.
+          example: 90210
+        productName:
+          type: string
+          description: Product name.
+          example: Cabernet Sauvignon 750ml
+        sku:
+          type: string
+          description: Stock keeping unit.
+          example: WINE-CAB-750
+        description:
+          type: string
+          description: Product description.
+          example: Estate-bottled Cabernet Sauvignon, vintage 2022.
+        uom:
+          type: string
+          description: Unit of measure.
+          example: Bottle
+        price:
+          type: number
+          format: float
+          description: Unit price.
+          example: 18.5
+        pack:
+          type: integer
+          description: Number of units per pack.
+          example: 12
+        tags:
+          type: array
+          description: Tags associated with the product.
+          items:
+            type: string
+          example: *id001
+        inventory:
+          type: object
+          description: Inventory management details.
+          additionalProperties: true
+        discounts:
+          type: object
+          description: Discount configuration for the product.
+          additionalProperties: true
+        creationDateTime:
+          type: string
+          format: date-time
+          example: '2026-06-02T14:30:00Z'
+        lastUpdateDateTime:
+          type: string
+          format: date-time
+          example: '2026-06-02T15:00:00Z'
+    ProductCreate:
+      title: ProductCreate
+      type: object
+      description: Payload for creating or updating a product.
+      required:
+      - productName
+      - price
+      properties:
+        productName:
+          type: string
+          example: Cabernet Sauvignon 750ml
+        sku:
+          type: string
+          example: WINE-CAB-750
+        description:
+          type: string
+          example: Estate-bottled Cabernet Sauvignon, vintage 2022.
+        uom:
+          type: string
+          example: Bottle
+        price:
+          type: number
+          format: float
+          example: 18.5
+        pack:
+          type: integer
+          example: 12
+        tags:
+          type: array
+          items:
+            type: string
+          example: *id002
+        inventory:
+          type: object
+          additionalProperties: true
+        discounts:
+          type: object
+          additionalProperties: true
+    ProductList:
+      title: ProductList
+      type: object
+      description: A paginated list of products.
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjkwMjEwfQ==
+    Catalog:
+      title: Catalog
+      type: object
+      description: A catalog of products and pricing assigned to clients.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        catalogName:
+          type: string
+          example: Premium Wines
+        enabled:
+          type: boolean
+          example: true
+        products:
+          type: array
+          description: Products in the catalog with pricing and discounts.
+          items:
+            type: object
+            additionalProperties: true
+        clients:
+          type: array
+          description: Clients the catalog is assigned to.
+          items:
+            type: object
+            additionalProperties: true
+    CatalogCreate:
+      title: CatalogCreate
+      type: object
+      description: Payload for creating a catalog.
+      required:
+      - catalogName
+      properties:
+        catalogName:
+          type: string
+          example: Premium Wines
+        products:
+          type: array
+          description: Products to include, with ids and discount options.
+          items:
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          description: Customers to assign the catalog to, by id.
+          items:
+            type: object
+            additionalProperties: true
+    CatalogUpdate:
+      title: CatalogUpdate
+      type: object
+      description: Payload for updating a catalog.
+      properties:
+        catalogName:
+          type: string
+          example: Premium Wines
+        enabled:
+          type: boolean
+          example: true
+        products:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+    CatalogList:
+      title: CatalogList
+      type: object
+      description: A paginated list of catalogs.
+      properties:
+        catalogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjcwMH0=
+    Client:
+      title: Client
+      type: object
+      description: A buyer/client associated with the distributor.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        clientEmail:
+          type: string
+          format: email
+          example: buyer@restaurant.example
+        name:
+          type: string
+          example: Downtown Bistro
+        firstName:
+          type: string
+          example: Jordan
+        lastName:
+          type: string
+          example: Rivera
+        nickname:
+          type: string
+          example: DTB
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        netTerms:
+          type: string
+          example: Net 30
+        addresses:
+          type: object
+          description: Billing and shipping addresses.
+          additionalProperties: true
+        salesReps:
+          type: array
+          description: Sales rep identifiers assigned to the client.
+          items:
+            type: integer
+            format: int64
+          example: *id003
+        status:
+          type: string
+          example: Active
+    ClientCreate:
+      title: ClientCreate
+      type: object
+      description: Payload for creating a client association.
+      required:
+      - clientEmail
+      - name
+      properties:
+        clientEmail:
+          type: string
+          format: email
+          example: buyer@restaurant.example
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        name:
+          type: string
+          example: Downtown Bistro
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        netTerms:
+          type: string
+          example: Net 30
+        addresses:
+          type: object
+          additionalProperties: true
+        salesReps:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example: *id007
+    ClientUpdate:
+      title: ClientUpdate
+      type: object
+      description: Payload for updating a client.
+      properties:
+        firstName:
+          type: string
+          example: Jordan
+        lastName:
+          type: string
+          example: Rivera
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        nickname:
+          type: string
+          example: DTB
+        addresses:
+          type: object
+          additionalProperties: true
+        salesReps:
+          type: array
+          items:
+            type: integer
+            format: int64
+        status:
+          type: string
+          example: Active
+    User:
+      title: User
+      type: object
+      description: A platform user.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 3001
+        firstName:
+          type: string
+          example: Alex
+        lastName:
+          type: string
+          example: Morgan
+        email:
+          type: string
+          format: email
+          example: alex.morgan@distributor.example
+        enabled:
+          type: boolean
+          example: true
+        notify:
+          type: boolean
+          example: true
+        role:
+          type: string
+          example: Admin
+        phone:
+          type: string
+          example: '+15555550123'
+        reportsTo:
+          type: integer
+          format: int64
+          example: 3000
+        notificationTypes:
+          type: array
+          items:
+            type: string
+          example: *id004
+        creationDateTime:
+          type: string
+          format: date-time
+          example: '2026-06-02T14:30:00Z'
+        lastUpdateDateTime:
+          type: string
+          format: date-time
+          example: '2026-06-02T15:00:00Z'
+    UserCreate:
+      title: UserCreate
+      type: object
+      description: Payload for creating or updating a user.
+      required:
+      - firstName
+      - lastName
+      - email
+      properties:
+        firstName:
+          type: string
+          example: Alex
+        lastName:
+          type: string
+          example: Morgan
+        email:
+          type: string
+          format: email
+          example: alex.morgan@distributor.example
+        enabled:
+          type: boolean
+          example: true
+        notify:
+          type: boolean
+          example: true
+        role:
+          type: string
+          example: Admin
+        phone:
+          type: string
+          example: '+15555550123'
+        reportsTo:
+          type: integer
+          format: int64
+          example: 3000
+        notificationTypes:
+          type: array
+          items:
+            type: string
+          example: *id005
+    UserList:
+      title: UserList
+      type: object
+      description: A paginated list of users.
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjMwMDF9
+security:
+- awsSigV4: []
+  apiKey: []

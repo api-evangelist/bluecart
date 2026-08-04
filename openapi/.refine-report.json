@@ -1,0 +1,22 @@
+{
+  "provider": "bluecart",
+  "sources": [
+    "bluecart-catalogs-api-openapi.yml",
+    "bluecart-clients-api-openapi.yml",
+    "bluecart-orders-api-openapi.yml",
+    "bluecart-products-api-openapi.yml",
+    "bluecart-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "bluecart-catalogs-api-openapi.yml",
+    "bluecart-clients-api-openapi.yml",
+    "bluecart-orders-api-openapi.yml",
+    "bluecart-products-api-openapi.yml",
+    "bluecart-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

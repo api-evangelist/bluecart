@@ -1,0 +1,1287 @@
+{
+  "item": [
+    {
+      "id": "eb6ed5c8-882e-4d22-830d-5aaa3f73194a",
+      "name": "Products",
+      "description": {
+        "content": "Manage the product catalog including pricing and inventory.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "16d74632-c78c-412e-b3eb-47b27c4ecb6e",
+          "name": "Retrieve All Products",
+          "request": {
+            "name": "Retrieve All Products",
+            "description": {
+              "content": "Retrieves a page of products (25 at a time) filtered by optional search parameters. Use the returned nextToken to page through results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "products",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sku",
+                  "value": "<string>",
+                  "description": "Filter products by SKU."
+                },
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "Filter products by name."
+                },
+                {
+                  "disabled": false,
+                  "key": "description",
+                  "value": "<string>",
+                  "description": "Filter products by description."
+                },
+                {
+                  "disabled": false,
+                  "key": "nextToken",
+                  "value": "<string>",
+                  "description": "Pagination token returned by a previous page; omit for the first page."
+                }
+              ],
+              "variable": [
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2ac95d4c-c3eb-47b4-a7df-2e470f243598",
+              "name": "A page of products.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sku",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "description",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "nextToken",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"products\": [\n    {\n      \"productId\": 90210,\n      \"productName\": \"Cabernet Sauvignon 750ml\",\n      \"sku\": \"WINE-CAB-750\",\n      \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n      \"uom\": \"Bottle\",\n      \"price\": 18.5,\n      \"pack\": 12,\n      \"tags\": [\n        \"Wine\",\n        \"Red\"\n      ],\n      \"inventory\": {},\n      \"discounts\": {},\n      \"creationDateTime\": \"2026-06-02T14:30:00Z\",\n      \"lastUpdateDateTime\": \"2026-06-02T15:00:00Z\"\n    }\n  ],\n  \"nextToken\": \"eyJsYXN0SWQiOjkwMjEwfQ==\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "42f1668b-6cf6-4346-bd06-db3f2a4e218e",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "products",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sku",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "description",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "nextToken",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9847deb1-1ff2-4367-947f-ffdb49c5dc8e",
+          "name": "Create A Product",
+          "request": {
+            "name": "Create A Product",
+            "description": {
+              "content": "Creates a new product in the catalog.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "products",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productName\": \"<string>\",\n  \"price\": \"<float>\",\n  \"sku\": \"<string>\",\n  \"description\": \"<string>\",\n  \"uom\": \"<string>\",\n  \"pack\": \"<integer>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"inventory\": {\n    \"key_0\": 4828.635832900959,\n    \"key_1\": \"string\"\n  },\n  \"discounts\": {\n    \"key_0\": \"string\",\n    \"key_1\": 8272.492649834032,\n    \"key_2\": 718.8672213509361,\n    \"key_3\": 522\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "e5dd9c00-762d-4887-827b-44f7a99307e2",
+              "name": "The created product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"productId\": 90210,\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {},\n  \"creationDateTime\": \"2026-06-02T14:30:00Z\",\n  \"lastUpdateDateTime\": \"2026-06-02T15:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f30cfabb-38f3-4a40-91bb-237136ff5294",
+              "name": "The request was malformed or failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "561a5591-926e-42da-b230-17463bc5a61a",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c38f702c-b7d2-4464-bb1d-cd5288811828",
+          "name": "Retrieve A Product",
+          "request": {
+            "name": "Retrieve A Product",
+            "description": {
+              "content": "Retrieves a single product by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "id",
+                  "description": "(Required) Product identifier."
+                },
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "93c501a2-5a7c-4253-abf8-ab1bd68e57ca",
+              "name": "The requested product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"productId\": 90210,\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {},\n  \"creationDateTime\": \"2026-06-02T14:30:00Z\",\n  \"lastUpdateDateTime\": \"2026-06-02T15:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8034bdd4-7c41-4604-9528-93bab5d2ca0b",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7d683eb1-01ca-4320-b769-fba834c11da7",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8cbda5ef-4a11-4db9-9504-50cc6caaad65",
+          "name": "Update A Product",
+          "request": {
+            "name": "Update A Product",
+            "description": {
+              "content": "Updates an existing product identified by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "id",
+                  "description": "(Required) Product identifier."
+                },
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productName\": \"<string>\",\n  \"price\": \"<float>\",\n  \"sku\": \"<string>\",\n  \"description\": \"<string>\",\n  \"uom\": \"<string>\",\n  \"pack\": \"<integer>\",\n  \"tags\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"inventory\": {\n    \"key_0\": true,\n    \"key_1\": \"string\"\n  },\n  \"discounts\": {\n    \"key_0\": 9191\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "a03c03d7-6989-40ad-b60a-e8b385fdfb2b",
+              "name": "The updated product.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"productId\": 90210,\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {},\n  \"creationDateTime\": \"2026-06-02T14:30:00Z\",\n  \"lastUpdateDateTime\": \"2026-06-02T15:00:00Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "58b8b913-47bd-4908-9740-7ef1b7dc6e8e",
+              "name": "The request was malformed or failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "089d8546-267a-4ee3-84ff-6017f65bbf6b",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2734dbc9-a1f8-49bd-88c0-719a214fb6be",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productName\": \"Cabernet Sauvignon 750ml\",\n  \"sku\": \"WINE-CAB-750\",\n  \"description\": \"Estate-bottled Cabernet Sauvignon, vintage 2022.\",\n  \"uom\": \"Bottle\",\n  \"price\": 18.5,\n  \"pack\": 12,\n  \"tags\": [\n    \"Wine\",\n    \"Red\"\n  ],\n  \"inventory\": {},\n  \"discounts\": {}\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dcc602d4-3a35-40bc-a7da-e7da3fdfe8df",
+          "name": "Delete A Product",
+          "request": {
+            "name": "Delete A Product",
+            "description": {
+              "content": "Deletes a product identified by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "products",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "id",
+                  "description": "(Required) Product identifier."
+                },
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a6ea4286-24bd-4ba3-89de-80dc2aa9d786",
+              "name": "True when the product was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "true",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e6724801-7f95-4671-bc8a-a3c1b7e5317c",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "56d35f87-b7c2-4279-9461-e9a4d18a731b",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "products",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Product identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "AWS API Gateway invoke URL for the BlueCart API.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "api.bluecart.com",
+      "key": "invokeUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://{{invokeUrl}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "30a9d5a0-88a4-40b6-a687-c5f7d3e5a448",
+    "name": "BlueCart Catalogs Products API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.\n\nContact Support:\n Name: BlueCart",
+      "type": "text/plain"
+    }
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlueCart Catalogs Orders API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Orders",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search For Orders",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/orders/",
+            "params": [
+              {
+                "name": "client",
+                "value": "",
+                "type": "query",
+                "description": "Include client information in the response."
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query",
+                "description": "Include vendor information in the response."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter orders by status."
+              },
+              {
+                "name": "sortField",
+                "value": "",
+                "type": "query",
+                "description": "Field to sort results by."
+              },
+              {
+                "name": "creationStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order creation start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "creationEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by order creation end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "requestedDeliveryStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by requested delivery start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "requestedDeliveryEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by requested delivery end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "deliveryStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by delivery start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "deliveryEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by delivery end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "shippingStartDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by shipping start date (YYYY-MM-DD)."
+              },
+              {
+                "name": "shippingEndDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter by shipping end date (YYYY-MM-DD)."
+              },
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of orders (25 at a time) filtered by the supplied search parameters. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Place An Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/orders/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new wholesale order on behalf of a client."
+        },
+        {
+          "info": {
+            "name": "Retrieve An Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/orders/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier."
+              },
+              {
+                "name": "client",
+                "value": "",
+                "type": "query",
+                "description": "Include client information in the response."
+              },
+              {
+                "name": "vendor",
+                "value": "",
+                "type": "query",
+                "description": "Include vendor information in the response."
+              }
+            ]
+          },
+          "docs": "Retrieves a single order by its identifier."
+        },
+        {
+          "info": {
+            "name": "Modify An Order",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/orders/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Order identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing order identified by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

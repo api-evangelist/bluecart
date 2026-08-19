@@ -1,0 +1,121 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlueCart Catalogs API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Catalogs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve All Catalogs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/catalogs/",
+            "params": [
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of catalogs. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Create A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/api/catalogs/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new catalog with products and assigned customers."
+        },
+        {
+          "info": {
+            "name": "Retrieve A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/catalogs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Catalog identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single catalog by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/api/catalogs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Catalog identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing catalog identified by its identifier."
+        },
+        {
+          "info": {
+            "name": "Delete A Catalog",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{invokeUrl}/api/catalogs/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Catalog identifier."
+              }
+            ]
+          },
+          "docs": "Deletes a catalog identified by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

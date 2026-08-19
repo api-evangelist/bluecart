@@ -1,0 +1,83 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlueCart Catalogs Clients API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Clients",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create A Client Association",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/api/clients/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new client association linking a buyer to the distributor, including catalog assignment, ordering, and account details."
+        },
+        {
+          "info": {
+            "name": "Retrieve A Client",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/clients/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Client identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single client by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Client",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/api/clients/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Client identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing client identified by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

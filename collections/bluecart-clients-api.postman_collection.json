@@ -1,0 +1,855 @@
+{
+  "item": [
+    {
+      "id": "d9fa16e5-b4d2-4315-b77f-d2010836d5fb",
+      "name": "Clients",
+      "description": {
+        "content": "Manage buyer/client associations and their account details.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d0d7e64f-0bd4-4f57-b0f3-cc0fcdf370c3",
+          "name": "Create A Client Association",
+          "request": {
+            "name": "Create A Client Association",
+            "description": {
+              "content": "Creates a new client association linking a buyer to the distributor, including catalog assignment, ordering, and account details.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "clients",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clientEmail\": \"<email>\",\n  \"name\": \"<string>\",\n  \"clientId\": \"<long>\",\n  \"catalogId\": \"<long>\",\n  \"orderFrequency\": \"<string>\",\n  \"accountNumber\": \"<string>\",\n  \"netTerms\": \"<string>\",\n  \"addresses\": {\n    \"key_0\": 4616,\n    \"key_1\": 2336,\n    \"key_2\": \"string\",\n    \"key_3\": 8702\n  },\n  \"salesReps\": [\n    \"<long>\",\n    \"<long>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "9cf37b85-ff5a-476a-8ccc-264fc6045ca4",
+              "name": "The created client.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientEmail\": \"buyer@restaurant.example\",\n  \"clientId\": 5012,\n  \"name\": \"Downtown Bistro\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"netTerms\": \"Net 30\",\n  \"addresses\": {},\n  \"salesReps\": [\n    3001\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientId\": 5012,\n  \"clientEmail\": \"buyer@restaurant.example\",\n  \"name\": \"Downtown Bistro\",\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"nickname\": \"DTB\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"netTerms\": \"Net 30\",\n  \"addresses\": {},\n  \"salesReps\": [\n    3001\n  ],\n  \"status\": \"Active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3d794afe-e96a-4d45-ae03-eecf2125b441",
+              "name": "The request was malformed or failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientEmail\": \"buyer@restaurant.example\",\n  \"clientId\": 5012,\n  \"name\": \"Downtown Bistro\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"netTerms\": \"Net 30\",\n  \"addresses\": {},\n  \"salesReps\": [\n    3001\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "116775c1-e17a-42fd-8197-3f3491563430",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clientEmail\": \"buyer@restaurant.example\",\n  \"clientId\": 5012,\n  \"name\": \"Downtown Bistro\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"netTerms\": \"Net 30\",\n  \"addresses\": {},\n  \"salesReps\": [\n    3001\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b17274ca-16b1-4416-bd35-4b758c841aa1",
+          "name": "Retrieve A Client",
+          "request": {
+            "name": "Retrieve A Client",
+            "description": {
+              "content": "Retrieves a single client by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "clients",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "id",
+                  "description": "(Required) Client identifier."
+                },
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "19cd5c66-f87f-42d9-ac81-991542854f94",
+              "name": "The requested client.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientId\": 5012,\n  \"clientEmail\": \"buyer@restaurant.example\",\n  \"name\": \"Downtown Bistro\",\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"nickname\": \"DTB\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"netTerms\": \"Net 30\",\n  \"addresses\": {},\n  \"salesReps\": [\n    3001\n  ],\n  \"status\": \"Active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7df7807b-d677-4d42-a26b-9d94ff6a7f5a",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95edee0a-35ab-4728-8551-a57a808d00e4",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "6a257f7e-0b8e-4b9b-a319-4c2550dc94ba",
+          "name": "Update A Client",
+          "request": {
+            "name": "Update A Client",
+            "description": {
+              "content": "Updates an existing client identified by its identifier.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "api",
+                "clients",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<long>",
+                  "key": "id",
+                  "description": "(Required) Client identifier."
+                },
+                {
+                  "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                  "type": "any",
+                  "value": "{{invokeUrl}}",
+                  "key": "invokeUrl"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"<string>\",\n  \"lastName\": \"<string>\",\n  \"catalogId\": \"<long>\",\n  \"orderFrequency\": \"<string>\",\n  \"accountNumber\": \"<string>\",\n  \"nickname\": \"<string>\",\n  \"addresses\": {\n    \"key_0\": false,\n    \"key_1\": false\n  },\n  \"salesReps\": [\n    \"<long>\",\n    \"<long>\"\n  ],\n  \"status\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "761922d2-4b8b-4dbc-a74d-4d074cef09bc",
+              "name": "The updated client.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"nickname\": \"DTB\",\n  \"addresses\": {},\n  \"salesReps\": [\n    0\n  ],\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clientId\": 5012,\n  \"clientEmail\": \"buyer@restaurant.example\",\n  \"name\": \"Downtown Bistro\",\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"nickname\": \"DTB\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"netTerms\": \"Net 30\",\n  \"addresses\": {},\n  \"salesReps\": [\n    3001\n  ],\n  \"status\": \"Active\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a6ce6a2a-e106-4624-a9c4-d3bfa083e8ba",
+              "name": "The request was malformed or failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"nickname\": \"DTB\",\n  \"addresses\": {},\n  \"salesReps\": [\n    0\n  ],\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "914fdcee-a685-436f-ba49-d2b9a16679c6",
+              "name": "Authentication failed or credentials were missing.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"nickname\": \"DTB\",\n  \"addresses\": {},\n  \"salesReps\": [\n    0\n  ],\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4d7ee8e-9e8f-4954-bacf-3d2b0201518a",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "api",
+                    "clients",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<long>",
+                      "key": "id",
+                      "description": "(Required) Client identifier."
+                    },
+                    {
+                      "description": "AWS API Gateway invoke URL for the BlueCart API.",
+                      "type": "any",
+                      "value": "{{invokeUrl}}",
+                      "key": "invokeUrl"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"firstName\": \"Jordan\",\n  \"lastName\": \"Rivera\",\n  \"catalogId\": 700,\n  \"orderFrequency\": \"Weekly\",\n  \"accountNumber\": \"ACCT-5012\",\n  \"nickname\": \"DTB\",\n  \"addresses\": {},\n  \"salesReps\": [\n    0\n  ],\n  \"status\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"message\": \"Order not found.\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "AWS API Gateway invoke URL for the BlueCart API.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "api.bluecart.com",
+      "key": "invokeUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://{{invokeUrl}}",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "35867263-f85a-4c62-abd2-0b73fea2bbf8",
+    "name": "BlueCart Catalogs Clients API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.\n\nContact Support:\n Name: BlueCart",
+      "type": "text/plain"
+    }
+  }
+}

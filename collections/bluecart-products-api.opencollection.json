@@ -1,0 +1,139 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "BlueCart Catalogs Products API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Products",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve All Products",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/products/",
+            "params": [
+              {
+                "name": "sku",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by SKU."
+              },
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by name."
+              },
+              {
+                "name": "description",
+                "value": "",
+                "type": "query",
+                "description": "Filter products by description."
+              },
+              {
+                "name": "nextToken",
+                "value": "",
+                "type": "query",
+                "description": "Pagination token returned by a previous page; omit for the first page."
+              }
+            ]
+          },
+          "docs": "Retrieves a page of products (25 at a time) filtered by optional search parameters. Use the returned nextToken to page through results."
+        },
+        {
+          "info": {
+            "name": "Create A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{invokeUrl}/api/products/",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new product in the catalog."
+        },
+        {
+          "info": {
+            "name": "Retrieve A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{invokeUrl}/api/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier."
+              }
+            ]
+          },
+          "docs": "Retrieves a single product by its identifier."
+        },
+        {
+          "info": {
+            "name": "Update A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://{invokeUrl}/api/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing product identified by its identifier."
+        },
+        {
+          "info": {
+            "name": "Delete A Product",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{invokeUrl}/api/products/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Product identifier."
+              }
+            ]
+          },
+          "docs": "Deletes a product identified by its identifier."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

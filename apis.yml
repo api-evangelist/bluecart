@@ -29,6 +29,14 @@ tags:
   - Ordering
   - Food Distribution
   - Hospitality
+  - E-Commerce
+tags_raw:
+  - Restaurant
+  - Procurement
+  - Wholesale
+  - Ordering
+  - Food Distribution
+  - Hospitality
   - eCommerce
 url: https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/apis.yml
 created: '2026-06-02'
@@ -74,6 +82,8 @@ apis:
   description: Search, retrieve, place, and modify wholesale orders.
   humanURL: https://docs.bluecart.com/
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -91,6 +101,8 @@ apis:
   description: Manage the product catalog including pricing and inventory.
   humanURL: https://docs.bluecart.com/
   tags:
+  - Product
+  tags_raw:
   - Products
   properties:
   - type: OpenAPI
@@ -108,6 +120,8 @@ apis:
   description: Manage platform users and their roles and notifications.
   humanURL: https://docs.bluecart.com/
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI

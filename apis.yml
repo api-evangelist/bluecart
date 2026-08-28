@@ -8,6 +8,18 @@ description: >-
   responses and integrating BlueCart data with external accounting, eCommerce, and logistics systems used across
   foodservice operations.
 type: Company
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: false
+  label: Hosted service · you call their endpoint
+  confidence: medium
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve

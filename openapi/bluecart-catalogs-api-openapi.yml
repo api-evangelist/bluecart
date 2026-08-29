@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BlueCart Catalogs API
   version: '1.0'
@@ -252,6 +252,36 @@ components:
           items:
             type: object
             additionalProperties: true
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+    CatalogUpdate:
+      title: CatalogUpdate
+      type: object
+      description: Payload for updating a catalog.
+      properties:
+        catalogName:
+          type: string
+          example: Premium Wines
+        enabled:
+          type: boolean
+          example: true
+        products:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     CatalogList:
       title: CatalogList
       type: object
@@ -286,52 +316,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-    CatalogUpdate:
-      title: CatalogUpdate
-      type: object
-      description: Payload for updating a catalog.
-      properties:
-        catalogName:
-          type: string
-          example: Premium Wines
-        enabled:
-          type: boolean
-          example: true
-        products:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        customers:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-  parameters:
-    CatalogId:
-      name: id
-      in: path
-      description: Catalog identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
   responses:
     Unauthorized:
       description: Authentication failed or credentials were missing.
@@ -351,6 +335,22 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  parameters:
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+    CatalogId:
+      name: id
+      in: path
+      description: Catalog identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
   securitySchemes:
     awsSigV4:
       type: apiKey

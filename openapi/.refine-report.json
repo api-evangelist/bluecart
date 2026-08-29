@@ -17,6 +17,13 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
+  "notes": [
+    "bluecart-catalogs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bluecart-clients-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bluecart-orders-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bluecart-products-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "bluecart-users-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
   "skipped": []
 }

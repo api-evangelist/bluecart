@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BlueCart Catalogs Users API
   version: '1.0'
@@ -261,42 +261,70 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    UserId:
-      name: id
-      in: path
-      description: User identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
   schemas:
+    UserList:
+      title: UserList
+      type: object
+      description: A paginated list of users.
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjMwMDF9
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+    UserCreate:
+      title: UserCreate
+      type: object
+      description: Payload for creating or updating a user.
+      required:
+      - firstName
+      - lastName
+      - email
+      properties:
+        firstName:
+          type: string
+          example: Alex
+        lastName:
+          type: string
+          example: Morgan
+        email:
+          type: string
+          format: email
+          example: alex.morgan@distributor.example
+        enabled:
+          type: boolean
+          example: true
+        notify:
+          type: boolean
+          example: true
+        role:
+          type: string
+          example: Admin
+        phone:
+          type: string
+          example: '+15555550123'
+        reportsTo:
+          type: integer
+          format: int64
+          example: 3000
+        notificationTypes:
+          type: array
+          items:
+            type: string
+          example:
+          - OrderPlaced
+          - OrderShipped
     User:
       title: User
       type: object
@@ -349,69 +377,41 @@ components:
           type: string
           format: date-time
           example: '2026-06-02T15:00:00Z'
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-    UserList:
-      title: UserList
-      type: object
-      description: A paginated list of users.
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjMwMDF9
-    UserCreate:
-      title: UserCreate
-      type: object
-      description: Payload for creating or updating a user.
-      required:
-      - firstName
-      - lastName
-      - email
-      properties:
-        firstName:
-          type: string
-          example: Alex
-        lastName:
-          type: string
-          example: Morgan
-        email:
-          type: string
-          format: email
-          example: alex.morgan@distributor.example
-        enabled:
-          type: boolean
-          example: true
-        notify:
-          type: boolean
-          example: true
-        role:
-          type: string
-          example: Admin
-        phone:
-          type: string
-          example: '+15555550123'
-        reportsTo:
-          type: integer
-          format: int64
-          example: 3000
-        notificationTypes:
-          type: array
-          items:
-            type: string
-          example:
-          - OrderPlaced
-          - OrderShipped
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    UserId:
+      name: id
+      in: path
+      description: User identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     awsSigV4:
       type: apiKey

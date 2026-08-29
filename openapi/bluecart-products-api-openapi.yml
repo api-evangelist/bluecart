@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BlueCart Catalogs Products API
   version: '1.0'
@@ -280,7 +280,51 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  parameters:
+    ProductId:
+      name: id
+      in: path
+      description: Product identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
     ProductCreate:
       title: ProductCreate
       type: object
@@ -394,50 +438,6 @@ components:
           type: string
           format: date-time
           example: '2026-06-02T15:00:00Z'
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-  parameters:
-    ProductId:
-      name: id
-      in: path
-      description: Product identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     awsSigV4:
       type: apiKey

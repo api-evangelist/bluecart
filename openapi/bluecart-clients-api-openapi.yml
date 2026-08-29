@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: BlueCart Catalogs Clients API
   version: '1.0'
@@ -190,49 +190,35 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    ClientCreate:
-      title: ClientCreate
+    Error:
+      title: Error
       type: object
-      description: Payload for creating a client association.
-      required:
-      - clientEmail
-      - name
+      description: Standard error response.
       properties:
-        clientEmail:
+        message:
           type: string
-          format: email
-          example: buyer@restaurant.example
-        clientId:
-          type: integer
-          format: int64
-          example: 5012
-        name:
-          type: string
-          example: Downtown Bistro
-        catalogId:
-          type: integer
-          format: int64
-          example: 700
-        orderFrequency:
-          type: string
-          example: Weekly
-        accountNumber:
-          type: string
-          example: ACCT-5012
-        netTerms:
-          type: string
-          example: Net 30
-        addresses:
-          type: object
-          additionalProperties: true
-        salesReps:
-          type: array
-          items:
-            type: integer
-            format: int64
-          example:
-          - 3001
+          description: Human-readable error message.
+          example: Order not found.
     Client:
       title: Client
       type: object
@@ -288,6 +274,48 @@ components:
         status:
           type: string
           example: Active
+    ClientCreate:
+      title: ClientCreate
+      type: object
+      description: Payload for creating a client association.
+      required:
+      - clientEmail
+      - name
+      properties:
+        clientEmail:
+          type: string
+          format: email
+          example: buyer@restaurant.example
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        name:
+          type: string
+          example: Downtown Bistro
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        netTerms:
+          type: string
+          example: Net 30
+        addresses:
+          type: object
+          additionalProperties: true
+        salesReps:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example:
+          - 3001
     ClientUpdate:
       title: ClientUpdate
       type: object
@@ -323,34 +351,6 @@ components:
         status:
           type: string
           example: Active
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-  responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     ClientId:
       name: id

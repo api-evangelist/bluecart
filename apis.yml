@@ -61,6 +61,8 @@ apis:
   description: Manage client-specific catalogs of products and pricing.
   humanURL: https://docs.bluecart.com/
   tags:
+  - Catalog
+  tags_raw:
   - Catalogs
   properties:
   - type: OpenAPI

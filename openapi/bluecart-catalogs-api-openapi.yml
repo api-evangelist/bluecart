@@ -2,7 +2,7 @@ openapi: 3.2.0
 info:
   title: BlueCart Catalogs API
   version: '1.0'
-  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries.
   contact:
     name: BlueCart
     url: https://www.bluecart.com/contact
@@ -223,6 +223,27 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
+    CatalogUpdate:
+      title: CatalogUpdate
+      type: object
+      description: Payload for updating a catalog.
+      properties:
+        catalogName:
+          type: string
+          example: Premium Wines
+        enabled:
+          type: boolean
+          example: true
+        products:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          items:
+            type: object
+            additionalProperties: true
     Catalog:
       title: Catalog
       type: object
@@ -252,48 +273,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-    CatalogUpdate:
-      title: CatalogUpdate
-      type: object
-      description: Payload for updating a catalog.
-      properties:
-        catalogName:
-          type: string
-          example: Premium Wines
-        enabled:
-          type: boolean
-          example: true
-        products:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-        customers:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
-    CatalogList:
-      title: CatalogList
-      type: object
-      description: A paginated list of catalogs.
-      properties:
-        catalogs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Catalog'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjcwMH0=
     CatalogCreate:
       title: CatalogCreate
       type: object
@@ -316,13 +295,28 @@ components:
           items:
             type: object
             additionalProperties: true
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+    CatalogList:
+      title: CatalogList
+      type: object
+      description: A paginated list of catalogs.
+      properties:
+        catalogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjcwMH0=
   responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -335,14 +329,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
     CatalogId:
       name: id
       in: path
@@ -351,6 +344,13 @@ components:
       schema:
         type: integer
         format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     awsSigV4:
       type: apiKey

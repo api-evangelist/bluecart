@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: BlueCart Catalogs Clients API
+  title: BlueCart Clients API
   version: '1.0'
-  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries.
   contact:
     name: BlueCart
     url: https://www.bluecart.com/contact
@@ -191,12 +191,6 @@ paths:
         dispatcher: FALLBACK
 components:
   responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -205,6 +199,12 @@ components:
             $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
       content:
         application/json:
           schema:
@@ -219,6 +219,48 @@ components:
           type: string
           description: Human-readable error message.
           example: Order not found.
+    ClientCreate:
+      title: ClientCreate
+      type: object
+      description: Payload for creating a client association.
+      required:
+      - clientEmail
+      - name
+      properties:
+        clientEmail:
+          type: string
+          format: email
+          example: buyer@restaurant.example
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        name:
+          type: string
+          example: Downtown Bistro
+        catalogId:
+          type: integer
+          format: int64
+          example: 700
+        orderFrequency:
+          type: string
+          example: Weekly
+        accountNumber:
+          type: string
+          example: ACCT-5012
+        netTerms:
+          type: string
+          example: Net 30
+        addresses:
+          type: object
+          additionalProperties: true
+        salesReps:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example:
+          - 3001
     Client:
       title: Client
       type: object
@@ -274,48 +316,6 @@ components:
         status:
           type: string
           example: Active
-    ClientCreate:
-      title: ClientCreate
-      type: object
-      description: Payload for creating a client association.
-      required:
-      - clientEmail
-      - name
-      properties:
-        clientEmail:
-          type: string
-          format: email
-          example: buyer@restaurant.example
-        clientId:
-          type: integer
-          format: int64
-          example: 5012
-        name:
-          type: string
-          example: Downtown Bistro
-        catalogId:
-          type: integer
-          format: int64
-          example: 700
-        orderFrequency:
-          type: string
-          example: Weekly
-        accountNumber:
-          type: string
-          example: ACCT-5012
-        netTerms:
-          type: string
-          example: Net 30
-        addresses:
-          type: object
-          additionalProperties: true
-        salesReps:
-          type: array
-          items:
-            type: integer
-            format: int64
-          example:
-          - 3001
     ClientUpdate:
       title: ClientUpdate
       type: object

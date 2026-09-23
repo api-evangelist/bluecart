@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: BlueCart Catalogs Orders API
+  title: BlueCart Orders API
   version: '1.0'
-  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries.
   contact:
     name: BlueCart
     url: https://www.bluecart.com/contact
@@ -368,35 +368,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
     OrderUpdate:
       title: OrderUpdate
       type: object
@@ -532,6 +504,15 @@ components:
           type: object
           description: Computed monetary totals for the order.
           additionalProperties: true
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
     OrderCreate:
       title: OrderCreate
       type: object
@@ -588,33 +569,6 @@ components:
           format: date-time
           description: Optional preset creation timestamp for the order.
           example: '2026-06-02T14:30:00Z'
-    OrderList:
-      title: OrderList
-      type: object
-      description: A paginated list of orders.
-      properties:
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Order'
-        nextToken:
-          type: string
-          description: Token to retrieve the next page; absent on the last page.
-          example: eyJsYXN0SWQiOjEwMDI0NX0=
-    OrderCreateResult:
-      title: OrderCreateResult
-      type: object
-      description: Result of placing an order, including any warnings.
-      properties:
-        order:
-          $ref: '#/components/schemas/Order'
-        warnings:
-          type: array
-          description: Non-fatal warnings raised while creating the order.
-          items:
-            type: string
-          example:
-          - Requested delivery date is outside the standard window.
     OrderProduct:
       title: OrderProduct
       type: object
@@ -644,14 +598,34 @@ components:
           format: float
           description: Unit price for this line item.
           example: 18.5
+    OrderCreateResult:
+      title: OrderCreateResult
+      type: object
+      description: Result of placing an order, including any warnings.
+      properties:
+        order:
+          $ref: '#/components/schemas/Order'
+        warnings:
+          type: array
+          description: Non-fatal warnings raised while creating the order.
+          items:
+            type: string
+          example:
+          - Requested delivery date is outside the standard window.
+    OrderList:
+      title: OrderList
+      type: object
+      description: A paginated list of orders.
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        nextToken:
+          type: string
+          description: Token to retrieve the next page; absent on the last page.
+          example: eyJsYXN0SWQiOjEwMDI0NX0=
   parameters:
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
     OrderId:
       name: id
       in: path
@@ -660,6 +634,32 @@ components:
       schema:
         type: integer
         format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     awsSigV4:
       type: apiKey

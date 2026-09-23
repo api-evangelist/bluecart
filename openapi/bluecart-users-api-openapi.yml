@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: BlueCart Catalogs Users API
+  title: BlueCart Users API
   version: '1.0'
-  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries.
   contact:
     name: BlueCart
     url: https://www.bluecart.com/contact
@@ -262,69 +262,6 @@ paths:
         dispatcher: FALLBACK
 components:
   schemas:
-    UserList:
-      title: UserList
-      type: object
-      description: A paginated list of users.
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjMwMDF9
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-    UserCreate:
-      title: UserCreate
-      type: object
-      description: Payload for creating or updating a user.
-      required:
-      - firstName
-      - lastName
-      - email
-      properties:
-        firstName:
-          type: string
-          example: Alex
-        lastName:
-          type: string
-          example: Morgan
-        email:
-          type: string
-          format: email
-          example: alex.morgan@distributor.example
-        enabled:
-          type: boolean
-          example: true
-        notify:
-          type: boolean
-          example: true
-        role:
-          type: string
-          example: Admin
-        phone:
-          type: string
-          example: '+15555550123'
-        reportsTo:
-          type: integer
-          format: int64
-          example: 3000
-        notificationTypes:
-          type: array
-          items:
-            type: string
-          example:
-          - OrderPlaced
-          - OrderShipped
     User:
       title: User
       type: object
@@ -377,13 +314,70 @@ components:
           type: string
           format: date-time
           example: '2026-06-02T15:00:00Z'
+    UserCreate:
+      title: UserCreate
+      type: object
+      description: Payload for creating or updating a user.
+      required:
+      - firstName
+      - lastName
+      - email
+      properties:
+        firstName:
+          type: string
+          example: Alex
+        lastName:
+          type: string
+          example: Morgan
+        email:
+          type: string
+          format: email
+          example: alex.morgan@distributor.example
+        enabled:
+          type: boolean
+          example: true
+        notify:
+          type: boolean
+          example: true
+        role:
+          type: string
+          example: Admin
+        phone:
+          type: string
+          example: '+15555550123'
+        reportsTo:
+          type: integer
+          format: int64
+          example: 3000
+        notificationTypes:
+          type: array
+          items:
+            type: string
+          example:
+          - OrderPlaced
+          - OrderShipped
+    UserList:
+      title: UserList
+      type: object
+      description: A paginated list of users.
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjMwMDF9
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
   responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -392,6 +386,12 @@ components:
             $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
       content:
         application/json:
           schema:

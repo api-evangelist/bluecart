@@ -1,8 +1,8 @@
 openapi: 3.2.0
 info:
-  title: BlueCart Catalogs Products API
+  title: BlueCart Products API
   version: '1.0'
-  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries. It exposes resource-oriented endpoints for managing orders, products, catalogs, clients, and users, returning JSON-encoded responses with standard HTTP status codes. The API is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, operates on a single object per request (no bulk updates), and uses next-token pagination returning 25 items per page on collection endpoints. This specification was generated from the public BlueCart API documentation at https://docs.bluecart.com/.
+  description: The BlueCart API is a REST API for the BlueCart wholesale ordering and procurement platform serving the hospitality and food and beverage industries.
   contact:
     name: BlueCart
     url: https://www.bluecart.com/contact
@@ -280,91 +280,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    ProductId:
-      name: id
-      in: path
-      description: Product identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
-  responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-    ProductCreate:
-      title: ProductCreate
-      type: object
-      description: Payload for creating or updating a product.
-      required:
-      - productName
-      - price
-      properties:
-        productName:
-          type: string
-          example: Cabernet Sauvignon 750ml
-        sku:
-          type: string
-          example: WINE-CAB-750
-        description:
-          type: string
-          example: Estate-bottled Cabernet Sauvignon, vintage 2022.
-        uom:
-          type: string
-          example: Bottle
-        price:
-          type: number
-          format: float
-          example: 18.5
-        pack:
-          type: integer
-          example: 12
-        tags:
-          type: array
-          items:
-            type: string
-          example:
-          - Wine
-          - Red
-        inventory:
-          type: object
-          additionalProperties: true
-        discounts:
-          type: object
-          additionalProperties: true
     ProductList:
       title: ProductList
       type: object
@@ -377,6 +293,15 @@ components:
         nextToken:
           type: string
           example: eyJsYXN0SWQiOjkwMjEwfQ==
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
     Product:
       title: Product
       type: object
@@ -438,6 +363,81 @@ components:
           type: string
           format: date-time
           example: '2026-06-02T15:00:00Z'
+    ProductCreate:
+      title: ProductCreate
+      type: object
+      description: Payload for creating or updating a product.
+      required:
+      - productName
+      - price
+      properties:
+        productName:
+          type: string
+          example: Cabernet Sauvignon 750ml
+        sku:
+          type: string
+          example: WINE-CAB-750
+        description:
+          type: string
+          example: Estate-bottled Cabernet Sauvignon, vintage 2022.
+        uom:
+          type: string
+          example: Bottle
+        price:
+          type: number
+          format: float
+          example: 18.5
+        pack:
+          type: integer
+          example: 12
+        tags:
+          type: array
+          items:
+            type: string
+          example:
+          - Wine
+          - Red
+        inventory:
+          type: object
+          additionalProperties: true
+        discounts:
+          type: object
+          additionalProperties: true
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
+    ProductId:
+      name: id
+      in: path
+      description: Product identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
   securitySchemes:
     awsSigV4:
       type: apiKey

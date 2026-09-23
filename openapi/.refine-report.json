@@ -1,11 +1,7 @@
 {
   "provider": "bluecart",
   "sources": [
-    "bluecart-catalogs-api-openapi.yml",
-    "bluecart-clients-api-openapi.yml",
-    "bluecart-orders-api-openapi.yml",
-    "bluecart-products-api-openapi.yml",
-    "bluecart-users-api-openapi.yml"
+    "_ae-authored/bluecart-openapi.yml"
   ],
   "outputs": [
     "bluecart-catalogs-api-openapi.yml",
@@ -18,12 +14,15 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "bluecart-catalogs-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "bluecart-clients-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "bluecart-orders-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "bluecart-products-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "bluecart-users-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "bluecart-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "bluecart-catalogs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bluecart-clients-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bluecart-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bluecart-products-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "bluecart-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

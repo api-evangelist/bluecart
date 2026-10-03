@@ -190,45 +190,18 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    ClientCreate:
-      title: ClientCreate
+    ClientUpdate:
+      title: ClientUpdate
       type: object
-      description: Payload for creating a client association.
-      required:
-      - clientEmail
-      - name
+      description: Payload for updating a client.
       properties:
-        clientEmail:
+        firstName:
           type: string
-          format: email
-          example: buyer@restaurant.example
-        clientId:
-          type: integer
-          format: int64
-          example: 5012
-        name:
+          example: Jordan
+        lastName:
           type: string
-          example: Downtown Bistro
+          example: Rivera
         catalogId:
           type: integer
           format: int64
@@ -239,9 +212,9 @@ components:
         accountNumber:
           type: string
           example: ACCT-5012
-        netTerms:
+        nickname:
           type: string
-          example: Net 30
+          example: DTB
         addresses:
           type: object
           additionalProperties: true
@@ -250,8 +223,9 @@ components:
           items:
             type: integer
             format: int64
-          example:
-          - 3001
+        status:
+          type: string
+          example: Active
     Client:
       title: Client
       type: object
@@ -307,17 +281,34 @@ components:
         status:
           type: string
           example: Active
-    ClientUpdate:
-      title: ClientUpdate
+    Error:
+      title: Error
       type: object
-      description: Payload for updating a client.
+      description: Standard error response.
       properties:
-        firstName:
+        message:
           type: string
-          example: Jordan
-        lastName:
+          description: Human-readable error message.
+          example: Order not found.
+    ClientCreate:
+      title: ClientCreate
+      type: object
+      description: Payload for creating a client association.
+      required:
+      - clientEmail
+      - name
+      properties:
+        clientEmail:
           type: string
-          example: Rivera
+          format: email
+          example: buyer@restaurant.example
+        clientId:
+          type: integer
+          format: int64
+          example: 5012
+        name:
+          type: string
+          example: Downtown Bistro
         catalogId:
           type: integer
           format: int64
@@ -328,9 +319,9 @@ components:
         accountNumber:
           type: string
           example: ACCT-5012
-        nickname:
+        netTerms:
           type: string
-          example: DTB
+          example: Net 30
         addresses:
           type: object
           additionalProperties: true
@@ -339,18 +330,27 @@ components:
           items:
             type: integer
             format: int64
-        status:
-          type: string
-          example: Active
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
+          example:
+          - 3001
+  responses:
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     ClientId:
       name: id

@@ -368,25 +368,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     NextToken:
       name: nextToken
@@ -403,115 +384,49 @@ components:
       schema:
         type: integer
         format: int64
+  responses:
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    OrderCreate:
-      title: OrderCreate
+    OrderCreateResult:
+      title: OrderCreateResult
       type: object
-      description: Payload for placing a new order.
-      required:
-      - clientId
-      - products
+      description: Result of placing an order, including any warnings.
       properties:
-        clientId:
-          type: integer
-          format: int64
-          description: Identifier of the client placing the order.
-          example: 5012
-        user:
-          type: object
-          description: The user placing the order.
-          properties:
-            id:
-              type: integer
-              format: int64
-              example: 3001
-            type:
-              type: string
-              example: STAFF
-        deliveryCharge:
-          type: number
-          format: float
-          description: Delivery charge to apply.
-          example: 25
-        deliveryType:
-          type: string
-          description: Delivery method.
-          example: Delivery
-        requestedDeliveryDate:
-          type: string
-          format: date
-          description: Requested delivery date.
-          example: '2026-06-10'
-        currency:
-          type: string
-          description: ISO currency code.
-          example: USD
-        addresses:
-          type: object
-          description: Billing and shipping addresses.
-          additionalProperties: true
-        products:
+        order:
+          $ref: '#/components/schemas/Order'
+        warnings:
           type: array
-          description: Line items to include in the order.
+          description: Non-fatal warnings raised while creating the order.
           items:
-            $ref: '#/components/schemas/OrderProduct'
-        presetCreationDate:
-          type: string
-          format: date-time
-          description: Optional preset creation timestamp for the order.
-          example: '2026-06-02T14:30:00Z'
-    OrderUpdate:
-      title: OrderUpdate
+            type: string
+          example:
+          - Requested delivery date is outside the standard window.
+    Error:
+      title: Error
       type: object
-      description: Payload for modifying an existing order.
+      description: Standard error response.
       properties:
-        userId:
-          type: integer
-          format: int64
-          description: Identifier of the user making the change.
-          example: 3001
-        status:
+        message:
           type: string
-          description: New order status.
-          enum:
-          - New
-          - Processing
-          - In-Transit/Shipped
-          - Fulfilled
-          - Cancelled
-          example: Processing
-        deliveryCharge:
-          type: number
-          format: float
-          description: Updated delivery charge.
-          example: 25
-        requestedDeliveryDate:
-          type: string
-          format: date
-          example: '2026-06-10'
-        deliveryDate:
-          type: string
-          format: date
-          example: '2026-06-10'
-        shippingDate:
-          type: string
-          format: date
-          example: '2026-06-09'
-        paymentStatus:
-          type: string
-          description: Payment status for the order.
-          example: Paid
-        trackingInfo:
-          type: string
-          description: Shipment tracking information.
-          example: 1Z999AA10123456784
-        addresses:
-          type: object
-          additionalProperties: true
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderProduct'
+          description: Human-readable error message.
+          example: Order not found.
     OrderProduct:
       title: OrderProduct
       type: object
@@ -541,19 +456,6 @@ components:
           format: float
           description: Unit price for this line item.
           example: 18.5
-    OrderList:
-      title: OrderList
-      type: object
-      description: A paginated list of orders.
-      properties:
-        orders:
-          type: array
-          items:
-            $ref: '#/components/schemas/Order'
-        nextToken:
-          type: string
-          description: Token to retrieve the next page; absent on the last page.
-          example: eyJsYXN0SWQiOjEwMDI0NX0=
     Order:
       title: Order
       type: object
@@ -637,29 +539,127 @@ components:
           type: object
           description: Computed monetary totals for the order.
           additionalProperties: true
-    OrderCreateResult:
-      title: OrderCreateResult
+    OrderCreate:
+      title: OrderCreate
       type: object
-      description: Result of placing an order, including any warnings.
+      description: Payload for placing a new order.
+      required:
+      - clientId
+      - products
       properties:
-        order:
-          $ref: '#/components/schemas/Order'
-        warnings:
-          type: array
-          description: Non-fatal warnings raised while creating the order.
-          items:
-            type: string
-          example:
-          - Requested delivery date is outside the standard window.
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
+        clientId:
+          type: integer
+          format: int64
+          description: Identifier of the client placing the order.
+          example: 5012
+        user:
+          type: object
+          description: The user placing the order.
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 3001
+            type:
+              type: string
+              example: STAFF
+        deliveryCharge:
+          type: number
+          format: float
+          description: Delivery charge to apply.
+          example: 25
+        deliveryType:
           type: string
-          description: Human-readable error message.
-          example: Order not found.
+          description: Delivery method.
+          example: Delivery
+        requestedDeliveryDate:
+          type: string
+          format: date
+          description: Requested delivery date.
+          example: '2026-06-10'
+        currency:
+          type: string
+          description: ISO currency code.
+          example: USD
+        addresses:
+          type: object
+          description: Billing and shipping addresses.
+          additionalProperties: true
+        products:
+          type: array
+          description: Line items to include in the order.
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+        presetCreationDate:
+          type: string
+          format: date-time
+          description: Optional preset creation timestamp for the order.
+          example: '2026-06-02T14:30:00Z'
+    OrderList:
+      title: OrderList
+      type: object
+      description: A paginated list of orders.
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/Order'
+        nextToken:
+          type: string
+          description: Token to retrieve the next page; absent on the last page.
+          example: eyJsYXN0SWQiOjEwMDI0NX0=
+    OrderUpdate:
+      title: OrderUpdate
+      type: object
+      description: Payload for modifying an existing order.
+      properties:
+        userId:
+          type: integer
+          format: int64
+          description: Identifier of the user making the change.
+          example: 3001
+        status:
+          type: string
+          description: New order status.
+          enum:
+          - New
+          - Processing
+          - In-Transit/Shipped
+          - Fulfilled
+          - Cancelled
+          example: Processing
+        deliveryCharge:
+          type: number
+          format: float
+          description: Updated delivery charge.
+          example: 25
+        requestedDeliveryDate:
+          type: string
+          format: date
+          example: '2026-06-10'
+        deliveryDate:
+          type: string
+          format: date
+          example: '2026-06-10'
+        shippingDate:
+          type: string
+          format: date
+          example: '2026-06-09'
+        paymentStatus:
+          type: string
+          description: Payment status for the order.
+          example: Paid
+        trackingInfo:
+          type: string
+          description: Shipment tracking information.
+          example: 1Z999AA10123456784
+        addresses:
+          type: object
+          additionalProperties: true
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
   securitySchemes:
     awsSigV4:
       type: apiKey

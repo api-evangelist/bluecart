@@ -222,25 +222,6 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  responses:
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     NextToken:
       name: nextToken
@@ -257,7 +238,47 @@ components:
       schema:
         type: integer
         format: int64
+  responses:
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
+    CatalogList:
+      title: CatalogList
+      type: object
+      description: A paginated list of catalogs.
+      properties:
+        catalogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjcwMH0=
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
     Catalog:
       title: Catalog
       type: object
@@ -287,18 +308,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    CatalogList:
-      title: CatalogList
-      type: object
-      description: A paginated list of catalogs.
-      properties:
-        catalogs:
-          type: array
-          items:
-            $ref: '#/components/schemas/Catalog'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjcwMH0=
     CatalogCreate:
       title: CatalogCreate
       type: object
@@ -342,15 +351,6 @@ components:
           items:
             type: object
             additionalProperties: true
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
   securitySchemes:
     awsSigV4:
       type: apiKey

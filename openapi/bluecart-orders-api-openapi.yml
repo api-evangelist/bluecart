@@ -369,13 +369,6 @@ paths:
         dispatcher: FALLBACK
 components:
   parameters:
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
     OrderId:
       name: id
       in: path
@@ -384,78 +377,122 @@ components:
       schema:
         type: integer
         format: int64
-  responses:
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
   schemas:
-    OrderCreateResult:
-      title: OrderCreateResult
+    OrderUpdate:
+      title: OrderUpdate
       type: object
-      description: Result of placing an order, including any warnings.
+      description: Payload for modifying an existing order.
       properties:
-        order:
-          $ref: '#/components/schemas/Order'
-        warnings:
-          type: array
-          description: Non-fatal warnings raised while creating the order.
-          items:
-            type: string
-          example:
-          - Requested delivery date is outside the standard window.
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
-    OrderProduct:
-      title: OrderProduct
-      type: object
-      description: A line item within an order.
-      x-schema-source: documentation
-      x-source-url: https://docs.bluecart.com/endpoints
-      properties:
-        productId:
+        userId:
           type: integer
           format: int64
-          description: Identifier of the product.
-          example: 90210
-        sku:
+          description: Identifier of the user making the change.
+          example: 3001
+        status:
           type: string
-          description: Stock keeping unit of the product.
-          example: WINE-CAB-750
-        name:
-          type: string
-          description: Product name.
-          example: Cabernet Sauvignon 750ml
-        quantity:
-          type: number
-          description: Quantity ordered.
-          example: 12
-        price:
+          description: New order status.
+          enum:
+          - New
+          - Processing
+          - In-Transit/Shipped
+          - Fulfilled
+          - Cancelled
+          example: Processing
+        deliveryCharge:
           type: number
           format: float
-          description: Unit price for this line item.
-          example: 18.5
+          description: Updated delivery charge.
+          example: 25
+        requestedDeliveryDate:
+          type: string
+          format: date
+          example: '2026-06-10'
+        deliveryDate:
+          type: string
+          format: date
+          example: '2026-06-10'
+        shippingDate:
+          type: string
+          format: date
+          example: '2026-06-09'
+        paymentStatus:
+          type: string
+          description: Payment status for the order.
+          example: Paid
+        trackingInfo:
+          type: string
+          description: Shipment tracking information.
+          example: 1Z999AA10123456784
+        addresses:
+          type: object
+          additionalProperties: true
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+    OrderCreate:
+      title: OrderCreate
+      type: object
+      description: Payload for placing a new order.
+      required:
+      - clientId
+      - products
+      properties:
+        clientId:
+          type: integer
+          format: int64
+          description: Identifier of the client placing the order.
+          example: 5012
+        user:
+          type: object
+          description: The user placing the order.
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 3001
+            type:
+              type: string
+              example: STAFF
+        deliveryCharge:
+          type: number
+          format: float
+          description: Delivery charge to apply.
+          example: 25
+        deliveryType:
+          type: string
+          description: Delivery method.
+          example: Delivery
+        requestedDeliveryDate:
+          type: string
+          format: date
+          description: Requested delivery date.
+          example: '2026-06-10'
+        currency:
+          type: string
+          description: ISO currency code.
+          example: USD
+        addresses:
+          type: object
+          description: Billing and shipping addresses.
+          additionalProperties: true
+        products:
+          type: array
+          description: Line items to include in the order.
+          items:
+            $ref: '#/components/schemas/OrderProduct'
+        presetCreationDate:
+          type: string
+          format: date-time
+          description: Optional preset creation timestamp for the order.
+          example: '2026-06-02T14:30:00Z'
     Order:
       title: Order
       type: object
@@ -539,62 +576,44 @@ components:
           type: object
           description: Computed monetary totals for the order.
           additionalProperties: true
-    OrderCreate:
-      title: OrderCreate
+    OrderProduct:
+      title: OrderProduct
       type: object
-      description: Payload for placing a new order.
-      required:
-      - clientId
-      - products
+      description: A line item within an order.
+      x-schema-source: documentation
+      x-source-url: https://docs.bluecart.com/endpoints
       properties:
-        clientId:
+        productId:
           type: integer
           format: int64
-          description: Identifier of the client placing the order.
-          example: 5012
-        user:
-          type: object
-          description: The user placing the order.
-          properties:
-            id:
-              type: integer
-              format: int64
-              example: 3001
-            type:
-              type: string
-              example: STAFF
-        deliveryCharge:
+          description: Identifier of the product.
+          example: 90210
+        sku:
+          type: string
+          description: Stock keeping unit of the product.
+          example: WINE-CAB-750
+        name:
+          type: string
+          description: Product name.
+          example: Cabernet Sauvignon 750ml
+        quantity:
+          type: number
+          description: Quantity ordered.
+          example: 12
+        price:
           type: number
           format: float
-          description: Delivery charge to apply.
-          example: 25
-        deliveryType:
+          description: Unit price for this line item.
+          example: 18.5
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
           type: string
-          description: Delivery method.
-          example: Delivery
-        requestedDeliveryDate:
-          type: string
-          format: date
-          description: Requested delivery date.
-          example: '2026-06-10'
-        currency:
-          type: string
-          description: ISO currency code.
-          example: USD
-        addresses:
-          type: object
-          description: Billing and shipping addresses.
-          additionalProperties: true
-        products:
-          type: array
-          description: Line items to include in the order.
-          items:
-            $ref: '#/components/schemas/OrderProduct'
-        presetCreationDate:
-          type: string
-          format: date-time
-          description: Optional preset creation timestamp for the order.
-          example: '2026-06-02T14:30:00Z'
+          description: Human-readable error message.
+          example: Order not found.
     OrderList:
       title: OrderList
       type: object
@@ -608,58 +627,39 @@ components:
           type: string
           description: Token to retrieve the next page; absent on the last page.
           example: eyJsYXN0SWQiOjEwMDI0NX0=
-    OrderUpdate:
-      title: OrderUpdate
+    OrderCreateResult:
+      title: OrderCreateResult
       type: object
-      description: Payload for modifying an existing order.
+      description: Result of placing an order, including any warnings.
       properties:
-        userId:
-          type: integer
-          format: int64
-          description: Identifier of the user making the change.
-          example: 3001
-        status:
-          type: string
-          description: New order status.
-          enum:
-          - New
-          - Processing
-          - In-Transit/Shipped
-          - Fulfilled
-          - Cancelled
-          example: Processing
-        deliveryCharge:
-          type: number
-          format: float
-          description: Updated delivery charge.
-          example: 25
-        requestedDeliveryDate:
-          type: string
-          format: date
-          example: '2026-06-10'
-        deliveryDate:
-          type: string
-          format: date
-          example: '2026-06-10'
-        shippingDate:
-          type: string
-          format: date
-          example: '2026-06-09'
-        paymentStatus:
-          type: string
-          description: Payment status for the order.
-          example: Paid
-        trackingInfo:
-          type: string
-          description: Shipment tracking information.
-          example: 1Z999AA10123456784
-        addresses:
-          type: object
-          additionalProperties: true
-        products:
+        order:
+          $ref: '#/components/schemas/Order'
+        warnings:
           type: array
+          description: Non-fatal warnings raised while creating the order.
           items:
-            $ref: '#/components/schemas/OrderProduct'
+            type: string
+          example:
+          - Requested delivery date is outside the standard window.
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     awsSigV4:
       type: apiKey

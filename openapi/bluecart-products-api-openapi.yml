@@ -280,23 +280,13 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
-    ProductId:
-      name: id
-      in: path
-      description: Product identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
   responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was malformed or failed validation.
       content:
@@ -309,22 +299,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
     Product:
       title: Product
       type: object
@@ -386,18 +361,6 @@ components:
           type: string
           format: date-time
           example: '2026-06-02T15:00:00Z'
-    ProductList:
-      title: ProductList
-      type: object
-      description: A paginated list of products.
-      properties:
-        products:
-          type: array
-          items:
-            $ref: '#/components/schemas/Product'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjkwMjEwfQ==
     ProductCreate:
       title: ProductCreate
       type: object
@@ -438,6 +401,43 @@ components:
         discounts:
           type: object
           additionalProperties: true
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+    ProductList:
+      title: ProductList
+      type: object
+      description: A paginated list of products.
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjkwMjEwfQ==
+  parameters:
+    ProductId:
+      name: id
+      in: path
+      description: Product identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     awsSigV4:
       type: apiKey

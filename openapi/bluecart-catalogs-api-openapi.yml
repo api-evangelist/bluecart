@@ -222,63 +222,29 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
-    CatalogId:
-      name: id
-      in: path
-      description: Catalog identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
-  responses:
-    BadRequest:
-      description: The request was malformed or failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
-    CatalogList:
-      title: CatalogList
+    CatalogCreate:
+      title: CatalogCreate
       type: object
-      description: A paginated list of catalogs.
+      description: Payload for creating a catalog.
+      required:
+      - catalogName
       properties:
-        catalogs:
+        catalogName:
+          type: string
+          example: Premium Wines
+        products:
           type: array
+          description: Products to include, with ids and discount options.
           items:
-            $ref: '#/components/schemas/Catalog'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjcwMH0=
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
+            type: object
+            additionalProperties: true
+        customers:
+          type: array
+          description: Customers to assign the catalog to, by id.
+          items:
+            type: object
+            additionalProperties: true
     Catalog:
       title: Catalog
       type: object
@@ -308,28 +274,18 @@ components:
           items:
             type: object
             additionalProperties: true
-    CatalogCreate:
-      title: CatalogCreate
+    CatalogList:
+      title: CatalogList
       type: object
-      description: Payload for creating a catalog.
-      required:
-      - catalogName
+      description: A paginated list of catalogs.
       properties:
-        catalogName:
+        catalogs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Catalog'
+        nextToken:
           type: string
-          example: Premium Wines
-        products:
-          type: array
-          description: Products to include, with ids and discount options.
-          items:
-            type: object
-            additionalProperties: true
-        customers:
-          type: array
-          description: Customers to assign the catalog to, by id.
-          items:
-            type: object
-            additionalProperties: true
+          example: eyJsYXN0SWQiOjcwMH0=
     CatalogUpdate:
       title: CatalogUpdate
       type: object
@@ -351,6 +307,50 @@ components:
           items:
             type: object
             additionalProperties: true
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+  responses:
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request was malformed or failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    CatalogId:
+      name: id
+      in: path
+      description: Catalog identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     awsSigV4:
       type: apiKey

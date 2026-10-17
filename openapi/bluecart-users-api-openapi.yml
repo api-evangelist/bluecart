@@ -261,29 +261,7 @@ paths:
         delay: 0
         dispatcher: FALLBACK
 components:
-  parameters:
-    UserId:
-      name: id
-      in: path
-      description: User identifier.
-      required: true
-      schema:
-        type: integer
-        format: int64
-    NextToken:
-      name: nextToken
-      in: query
-      description: Pagination token returned by a previous page; omit for the first page.
-      required: false
-      schema:
-        type: string
   responses:
-    Unauthorized:
-      description: Authentication failed or credentials were missing.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request was malformed or failed validation.
       content:
@@ -296,28 +274,55 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Authentication failed or credentials were missing.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    UserList:
-      title: UserList
+    UserCreate:
+      title: UserCreate
       type: object
-      description: A paginated list of users.
+      description: Payload for creating or updating a user.
+      required:
+      - firstName
+      - lastName
+      - email
       properties:
-        users:
+        firstName:
+          type: string
+          example: Alex
+        lastName:
+          type: string
+          example: Morgan
+        email:
+          type: string
+          format: email
+          example: alex.morgan@distributor.example
+        enabled:
+          type: boolean
+          example: true
+        notify:
+          type: boolean
+          example: true
+        role:
+          type: string
+          example: Admin
+        phone:
+          type: string
+          example: '+15555550123'
+        reportsTo:
+          type: integer
+          format: int64
+          example: 3000
+        notificationTypes:
           type: array
           items:
-            $ref: '#/components/schemas/User'
-        nextToken:
-          type: string
-          example: eyJsYXN0SWQiOjMwMDF9
-    Error:
-      title: Error
-      type: object
-      description: Standard error response.
-      properties:
-        message:
-          type: string
-          description: Human-readable error message.
-          example: Order not found.
+            type: string
+          example:
+          - OrderPlaced
+          - OrderShipped
     User:
       title: User
       type: object
@@ -370,48 +375,43 @@ components:
           type: string
           format: date-time
           example: '2026-06-02T15:00:00Z'
-    UserCreate:
-      title: UserCreate
+    UserList:
+      title: UserList
       type: object
-      description: Payload for creating or updating a user.
-      required:
-      - firstName
-      - lastName
-      - email
+      description: A paginated list of users.
       properties:
-        firstName:
-          type: string
-          example: Alex
-        lastName:
-          type: string
-          example: Morgan
-        email:
-          type: string
-          format: email
-          example: alex.morgan@distributor.example
-        enabled:
-          type: boolean
-          example: true
-        notify:
-          type: boolean
-          example: true
-        role:
-          type: string
-          example: Admin
-        phone:
-          type: string
-          example: '+15555550123'
-        reportsTo:
-          type: integer
-          format: int64
-          example: 3000
-        notificationTypes:
+        users:
           type: array
           items:
-            type: string
-          example:
-          - OrderPlaced
-          - OrderShipped
+            $ref: '#/components/schemas/User'
+        nextToken:
+          type: string
+          example: eyJsYXN0SWQiOjMwMDF9
+    Error:
+      title: Error
+      type: object
+      description: Standard error response.
+      properties:
+        message:
+          type: string
+          description: Human-readable error message.
+          example: Order not found.
+  parameters:
+    UserId:
+      name: id
+      in: path
+      description: User identifier.
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NextToken:
+      name: nextToken
+      in: query
+      description: Pagination token returned by a previous page; omit for the first page.
+      required: false
+      schema:
+        type: string
   securitySchemes:
     awsSigV4:
       type: apiKey

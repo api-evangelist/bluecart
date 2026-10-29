@@ -1,4 +1,4 @@
-# BlueCart (bluecart)
+# BlueCart
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -66,71 +66,216 @@
 
 BlueCart is an end-to-end eCommerce and procurement platform for the hospitality and food and beverage industries, connecting restaurants and buyers with wholesale distributors and suppliers. It streamlines wholesale ordering, order management, inventory, and payments for both sides of the supply chain. BlueCart exposes a public REST API that lets distributors and partners programmatically manage products, orders, customers, catalogs, and users, returning JSON responses and integrating BlueCart data with external accounting, eCommerce, and logistics systems used across foodservice operations.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/bluecart/refs/heads/main/apis.yml)
+**Areas:** Restaurant · Procurement · Wholesale · Ordering · Food Distribution · Hospitality · E-Commerce
 
-## Scope
+## BlueCart on APIs.io
 
-- **Type:** Company
+Everything profiled for BlueCart is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/bluecart/](https://apis.io/providers/bluecart/)** — or go straight to one of the APIs or properties below.
 
-## Tags
+### APIs (5)
 
-- Restaurant
-- Procurement
-- Wholesale
-- Ordering
-- Food Distribution
-- Hospitality
-- eCommerce
+- [BlueCart Catalogs API](https://apis.io/apis/bluecart/bluecart-catalogs-api/) — Manage client-specific catalogs of products and pricing.
+- [BlueCart Clients API](https://apis.io/apis/bluecart/bluecart-clients-api/) — Manage buyer/client associations and their account details.
+- [BlueCart Orders API](https://apis.io/apis/bluecart/bluecart-orders-api/) — Search, retrieve, place, and modify wholesale orders.
+- [BlueCart Products API](https://apis.io/apis/bluecart/bluecart-products-api/) — Manage the product catalog including pricing and inventory.
+- [BlueCart Users API](https://apis.io/apis/bluecart/bluecart-users-api/) — Manage platform users and their roles and notifications.
 
-## Timestamps
+### Published properties
 
-- **Created:** 2026-06-02
-- **Modified:** 2026-06-02
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## APIs
+#### Agentic access (1)
 
-### BlueCart API
+Which operations an agent can call, which act, and which need a human in the loop.
 
-The BlueCart API is defined using REST with predictable, resource-oriented URLs and returns JSON-encoded responses with standard HTTP status codes. It is authenticated using AWS Signature Version 4 against the AWS execute-api service in the us-east-1 region, requiring an Access Key ID, Secret Access Key, and API Key generated from the BlueCart app under Settings, API Access Credentials. The API operates on one object per request and does not support bulk updates, uses next-token pagination returning 25 items per page on collection endpoints, and ships with a Postman collection to help developers make their first request. It exposes resources for orders, products, catalogs, clients, and users.
+- [Bluecart Agentic Access](https://apis.io/agentic-access/bluecart/bluecart-agentic-access/)
 
-- **Human URL:** [https://docs.bluecart.com/](https://docs.bluecart.com/)
+#### JSON Schema (19)
 
-#### Tags
+The data models the API reads and writes.
 
-- Orders
-- Products
-- Catalogs
-- Clients
-- Users
-- Procurement
+- [Catalog](https://apis.io/schemas/bluecart/bluecart-catalog/)
+- [CatalogCreate](https://apis.io/schemas/bluecart/bluecart-catalog-create/)
+- [CatalogList](https://apis.io/schemas/bluecart/bluecart-catalog-list/)
+- [CatalogUpdate](https://apis.io/schemas/bluecart/bluecart-catalog-update/)
+- [Client](https://apis.io/schemas/bluecart/bluecart-client/)
+- [ClientCreate](https://apis.io/schemas/bluecart/bluecart-client-create/)
+- [ClientUpdate](https://apis.io/schemas/bluecart/bluecart-client-update/)
+- [Order](https://apis.io/schemas/bluecart/bluecart-order/)
+- [OrderCreate](https://apis.io/schemas/bluecart/bluecart-order-create/)
+- [OrderCreateResult](https://apis.io/schemas/bluecart/bluecart-order-create-result/)
+- [OrderList](https://apis.io/schemas/bluecart/bluecart-order-list/)
+- [OrderProduct](https://apis.io/schemas/bluecart/bluecart-order-product/)
+- [OrderUpdate](https://apis.io/schemas/bluecart/bluecart-order-update/)
+- [Product](https://apis.io/schemas/bluecart/bluecart-product/)
+- [ProductCreate](https://apis.io/schemas/bluecart/bluecart-product-create/)
+- [ProductList](https://apis.io/schemas/bluecart/bluecart-product-list/)
+- [User](https://apis.io/schemas/bluecart/bluecart-user/)
+- [UserCreate](https://apis.io/schemas/bluecart/bluecart-user-create/)
+- [UserList](https://apis.io/schemas/bluecart/bluecart-user-list/)
 
-#### Properties
+#### JSON Structure (19)
 
-- [Documentation](https://docs.bluecart.com/)
-- [Authentication](https://docs.bluecart.com/authentication)
-- [Getting Started](https://docs.bluecart.com/running-your-first-request)
-- [Pagination](https://docs.bluecart.com/pagination)
-- [OpenAPI](openapi/bluecart-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/bluecart.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/bluecart.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Data models expressed in JSON Structure.
 
-## Common Properties
+- [Bluecart Catalog Create Structure](https://apis.io/json-structure/bluecart/bluecart-catalog-create-structure/)
+- [Bluecart Catalog List Structure](https://apis.io/json-structure/bluecart/bluecart-catalog-list-structure/)
+- [Bluecart Catalog Structure](https://apis.io/json-structure/bluecart/bluecart-catalog-structure/)
+- [Bluecart Catalog Update Structure](https://apis.io/json-structure/bluecart/bluecart-catalog-update-structure/)
+- [Bluecart Client Create Structure](https://apis.io/json-structure/bluecart/bluecart-client-create-structure/)
+- [Bluecart Client Structure](https://apis.io/json-structure/bluecart/bluecart-client-structure/)
+- [Bluecart Client Update Structure](https://apis.io/json-structure/bluecart/bluecart-client-update-structure/)
+- [Bluecart Order Create Result Structure](https://apis.io/json-structure/bluecart/bluecart-order-create-result-structure/)
+- [Bluecart Order Create Structure](https://apis.io/json-structure/bluecart/bluecart-order-create-structure/)
+- [Bluecart Order List Structure](https://apis.io/json-structure/bluecart/bluecart-order-list-structure/)
+- [Bluecart Order Product Structure](https://apis.io/json-structure/bluecart/bluecart-order-product-structure/)
+- [Bluecart Order Structure](https://apis.io/json-structure/bluecart/bluecart-order-structure/)
+- [Bluecart Order Update Structure](https://apis.io/json-structure/bluecart/bluecart-order-update-structure/)
+- [Bluecart Product Create Structure](https://apis.io/json-structure/bluecart/bluecart-product-create-structure/)
+- [Bluecart Product List Structure](https://apis.io/json-structure/bluecart/bluecart-product-list-structure/)
+- [Bluecart Product Structure](https://apis.io/json-structure/bluecart/bluecart-product-structure/)
+- [Bluecart User Create Structure](https://apis.io/json-structure/bluecart/bluecart-user-create-structure/)
+- [Bluecart User List Structure](https://apis.io/json-structure/bluecart/bluecart-user-list-structure/)
+- [Bluecart User Structure](https://apis.io/json-structure/bluecart/bluecart-user-structure/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Bluecart Context](https://apis.io/jsonld/bluecart/bluecart-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Bluecart Vocabulary](https://apis.io/vocabularies/bluecart/bluecart-vocabulary/)
+
+#### Examples (19)
+
+Example requests and responses.
+
+- [Bluecart Catalog Create Example](https://apis.io/examples/bluecart/bluecart-catalog-create-example/)
+- [Bluecart Catalog Example](https://apis.io/examples/bluecart/bluecart-catalog-example/)
+- [Bluecart Catalog List Example](https://apis.io/examples/bluecart/bluecart-catalog-list-example/)
+- [Bluecart Catalog Update Example](https://apis.io/examples/bluecart/bluecart-catalog-update-example/)
+- [Bluecart Client Create Example](https://apis.io/examples/bluecart/bluecart-client-create-example/)
+- [Bluecart Client Example](https://apis.io/examples/bluecart/bluecart-client-example/)
+- [Bluecart Client Update Example](https://apis.io/examples/bluecart/bluecart-client-update-example/)
+- [Bluecart Order Create Example](https://apis.io/examples/bluecart/bluecart-order-create-example/)
+- [Bluecart Order Create Result Example](https://apis.io/examples/bluecart/bluecart-order-create-result-example/)
+- [Bluecart Order Example](https://apis.io/examples/bluecart/bluecart-order-example/)
+- [Bluecart Order List Example](https://apis.io/examples/bluecart/bluecart-order-list-example/)
+- [Bluecart Order Product Example](https://apis.io/examples/bluecart/bluecart-order-product-example/)
+- [Bluecart Order Update Example](https://apis.io/examples/bluecart/bluecart-order-update-example/)
+- [Bluecart Product Create Example](https://apis.io/examples/bluecart/bluecart-product-create-example/)
+- [Bluecart Product Example](https://apis.io/examples/bluecart/bluecart-product-example/)
+- [Bluecart Product List Example](https://apis.io/examples/bluecart/bluecart-product-list-example/)
+- [Bluecart User Create Example](https://apis.io/examples/bluecart/bluecart-user-create-example/)
+- [Bluecart User Example](https://apis.io/examples/bluecart/bluecart-user-example/)
+- [Bluecart User List Example](https://apis.io/examples/bluecart/bluecart-user-list-example/)
+
+#### Collections (6)
+
+Postman and Open Collection request collections.
+
+- [BlueCart API](https://apis.io/collections/bluecart/open-bluecart/)
+- [BlueCart Catalogs API](https://apis.io/collections/bluecart/open-bluecart-catalogs-api/)
+- [BlueCart Catalogs Clients API](https://apis.io/collections/bluecart/open-bluecart-clients-api/)
+- [BlueCart Catalogs Orders API](https://apis.io/collections/bluecart/open-bluecart-orders-api/)
+- [BlueCart Catalogs Products API](https://apis.io/collections/bluecart/open-bluecart-products-api/)
+- [BlueCart Catalogs Users API](https://apis.io/collections/bluecart/open-bluecart-users-api/)
+
+#### Governance rules (2)
+
+Spectral rulesets for the provider's contracts.
+
+- [BlueCart — jsonschema rules](https://apis.io/rules/bluecart/bluecart-jsonschema-spectral-rules/)
+- [BlueCart API Rules](https://apis.io/rules/bluecart/bluecart-spectral-rules/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Bluecart Authentication](https://apis.io/security/bluecart/bluecart-authentication/)
+- [Bluecart Domain Security](https://apis.io/security/bluecart/bluecart-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Bluecart Plans Pricing](https://apis.io/plans/bluecart/bluecart-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Bluecart Rate Limits](https://apis.io/rate-limits/bluecart/bluecart-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Bluecart Finops](https://apis.io/finops/bluecart/bluecart-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
 - [Website](https://www.bluecart.com/)
 - [Documentation](https://docs.bluecart.com/)
-- [API Reference](https://docs.bluecart.com/endpoints)
-- [Authentication](https://docs.bluecart.com/authentication)
-- [Pagination](https://docs.bluecart.com/pagination)
+- [API reference](https://docs.bluecart.com/endpoints)
 - [Support](https://www.bluecart.com/contact)
-- [Sign Up](https://www.bluecart.com/)
-- [Rules](rules/bluecart-spectral-rules.yml)
-- [Vocabulary](vocabulary/bluecart-vocabulary.yaml)
-- [JSON-LD](json-ld/bluecart-context.jsonld) — [JSON-LD](https://www.w3.org/TR/json-ld11/)
-- [Plans](plans/bluecart-plans-pricing.yml)
-- [Rate Limits](rate-limits/bluecart-rate-limits.yml)
-- [Fin Ops](finops/bluecart-finops.yml)
+- [Blog](https://www.bluecart.com/blog)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 30.1** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 62.5 |
+| Contract quality | 25.2 |
+| Contract governance | 27.3 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 47.6 |
+| Access clarity | 21.1 |
+
+**Agent readiness 22.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 16.7** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/bluecart/](https://apis.io/providers/bluecart/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for BlueCart: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/bluecart/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
